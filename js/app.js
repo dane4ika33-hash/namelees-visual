@@ -36,6 +36,10 @@ class App {
     this.updateCartBadge();
     this.setupEventListeners();
 
+    // Immediately load cached user from localStorage so the site NEVER flickers to guest
+    this.loadCachedUser();
+    this.updateUserUI();
+
     // Synchronize current user with SQLite Database
     await this.syncCurrentUser();
     this.initProfilePage();
@@ -84,13 +88,15 @@ class App {
 
     this.updateUserUI();
 
-    // Auto-open Welcome / Registration modal for new visitors who are not logged in
-    if (!this.currentUser && !window.location.pathname.includes('profile.html') && window.location.hash !== '#admin') {
+    // Auto-open Welcome / Registration modal only for truly brand-new visitors who have no token or cached account
+    const hasExistingAuth = !!(this.currentUser || localStorage.getItem('nv_auth_token') || localStorage.getItem('nv_cached_user'));
+    if (!hasExistingAuth && !window.location.pathname.includes('profile.html') && !window.location.pathname.includes('settings.html') && window.location.hash !== '#admin') {
       setTimeout(() => {
-        if (!this.currentUser) {
+        const stillNoAuth = !(this.currentUser || localStorage.getItem('nv_auth_token') || localStorage.getItem('nv_cached_user'));
+        if (stillNoAuth) {
           this.openAuthModal('register');
         }
-      }, 500);
+      }, 1000);
     }
   }
 
@@ -104,45 +110,70 @@ class App {
       const options = { method, headers };
       if (data && method !== 'GET') options.body = JSON.stringify(data);
       const res = await fetch(endpoint, options);
-      return await res.json();
+      const json = await res.json().catch(() => null);
+      if (!res.ok) {
+        return json || { success: false, status: res.status, message: `HTTP ${res.status}` };
+      }
+      return json;
     } catch (e) {
       console.warn('API error, using local fallback:', e);
       return null;
     }
   }
 
-  async syncCurrentUser() {
+  async syncCurrentUser(retryCount = 0) {
     const token = localStorage.getItem('nv_auth_token');
     if (token) {
-      const res = await this.apiRequest('/api/me');
-      if (res && res.success && res.user) {
-        this.currentUser = {
-          ...res.user,
-          balanceRub: res.user.balance,
-          unlockedItems: res.purchases || []
-        };
-        // Update local cache so old values in localStorage are synchronized
-        this.users[res.user.email] = this.currentUser;
-        this.saveUsers();
+      try {
+        const res = await this.apiRequest('/api/me');
+        if (res && res.success && res.user) {
+          this.currentUser = {
+            ...res.user,
+            balanceRub: res.user.balance,
+            unlockedItems: res.purchases || []
+          };
+          this.saveCurrentUserCache();
 
-        if (res.user.last_roulette_spin && res.user.last_roulette_spin > 0) {
-          localStorage.setItem('nv_last_lootbox_time', (res.user.last_roulette_spin * 1000).toString());
-        } else {
-          localStorage.removeItem('nv_last_lootbox_time');
+          if (res.user.last_roulette_spin && res.user.last_roulette_spin > 0) {
+            localStorage.setItem('nv_last_lootbox_time', (res.user.last_roulette_spin * 1000).toString());
+          } else {
+            localStorage.removeItem('nv_last_lootbox_time');
+          }
+          if (window.lootbox) {
+            window.lootbox.updateCooldownDisplay();
+          }
+          this.updateUserUI();
+          if (document.getElementById('page-prof-nickname')) {
+            this.initProfilePage();
+          }
+          if (document.getElementById('settings-email')) {
+            this.initSettingsPage();
+          }
+          return;
+        } else if (res && (res.status === 401 || (res.message && res.message.includes('Не авторизован')))) {
+          // Token is explicitly invalidated or deleted on server
+          console.warn('Session expired or token invalid');
+          this.currentUser = null;
+          this.saveCurrentUserCache();
+          localStorage.removeItem('nv_auth_token');
+          this.updateUserUI();
+          return;
         }
-        if (window.lootbox) {
-          window.lootbox.updateCooldownDisplay();
-        }
+      } catch (err) {
+        console.warn('Network error during /api/me:', err);
+      }
+
+      // If server is spinning up (Render free tier sleeps after 15 min) or temporary network glitch:
+      // DO NOT wipe user session! Keep cached profile and retry in background.
+      if (this.currentUser) {
         this.updateUserUI();
-        if (document.getElementById('page-prof-nickname')) {
-          this.initProfilePage();
-        }
-        if (document.getElementById('settings-email')) {
-          this.initSettingsPage();
+        if (retryCount < 3) {
+          setTimeout(() => this.syncCurrentUser(retryCount + 1), 3500 * (retryCount + 1));
         }
         return;
       }
     }
+
     // Fallback to local storage if server is not responding or no token
     this.loadUsersAndAuth();
     this.updateUserUI();
@@ -174,6 +205,34 @@ class App {
   }
 
   // --- Users & Authentication ---
+  loadCachedUser() {
+    try {
+      const cached = localStorage.getItem('nv_cached_user');
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (parsed && (parsed.email || parsed.nickname)) {
+          this.currentUser = parsed;
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn('Error parsing nv_cached_user:', e);
+    }
+    this.loadUsersAndAuth();
+  }
+
+  saveCurrentUserCache() {
+    if (this.currentUser) {
+      try {
+        localStorage.setItem('nv_cached_user', JSON.stringify(this.currentUser));
+        localStorage.setItem('nv_current_user_email', this.currentUser.email);
+      } catch (e) {}
+    } else {
+      localStorage.removeItem('nv_cached_user');
+      localStorage.removeItem('nv_current_user_email');
+    }
+  }
+
   loadUsersAndAuth() {
     const savedUsers = localStorage.getItem('nv_registered_users');
     if (savedUsers) {
@@ -185,7 +244,7 @@ class App {
     const currentEmail = localStorage.getItem('nv_current_user_email');
     if (currentEmail && this.users[currentEmail]) {
       this.currentUser = this.users[currentEmail];
-    } else {
+    } else if (!this.currentUser) {
       this.currentUser = null;
     }
   }
@@ -262,6 +321,7 @@ class App {
         balanceRub: res.user.balance,
         unlockedItems: []
       };
+      this.saveCurrentUserCache();
       if (res.user.last_roulette_spin && res.user.last_roulette_spin > 0) {
         localStorage.setItem('nv_last_lootbox_time', (res.user.last_roulette_spin * 1000).toString());
       } else {
@@ -301,6 +361,7 @@ class App {
     this.users[cleanEmail] = newUser;
     this.currentUser = newUser;
     this.saveUsers();
+    this.saveCurrentUserCache();
     this.updateUserUI();
     const authModal = document.getElementById('auth-modal-backdrop');
     if (authModal) authModal.classList.remove('active');
@@ -330,6 +391,7 @@ class App {
         balanceRub: res.user.balance,
         unlockedItems: res.purchases || []
       };
+      this.saveCurrentUserCache();
       if (res.user.last_roulette_spin && res.user.last_roulette_spin > 0) {
         localStorage.setItem('nv_last_lootbox_time', (res.user.last_roulette_spin * 1000).toString());
       } else {
@@ -365,6 +427,7 @@ class App {
             balanceRub: regRes.user.balance,
             unlockedItems: []
           };
+          this.saveCurrentUserCache();
           this.updateUserUI();
           const authModal = document.getElementById('auth-modal-backdrop');
           if (authModal) authModal.classList.remove('active');
@@ -395,6 +458,7 @@ class App {
     if (this.users[cleanEmail] && this.users[cleanEmail].password === cleanPass) {
       this.currentUser = this.users[cleanEmail];
       this.saveUsers();
+      this.saveCurrentUserCache();
       this.updateUserUI();
       const authModal = document.getElementById('auth-modal-backdrop');
       if (authModal) authModal.classList.remove('active');
@@ -406,6 +470,7 @@ class App {
 
   logoutUser() {
     this.currentUser = null;
+    this.saveCurrentUserCache();
     localStorage.removeItem('nv_auth_token');
     localStorage.removeItem('nv_current_user_email');
     localStorage.removeItem('nv_last_lootbox_time');
@@ -415,7 +480,7 @@ class App {
     this.updateUserUI();
     this.closeAllModals();
     this.showToast('🚪 Вы вышли из своего профиля', 'info');
-    if (window.location.pathname.includes('profile.html')) {
+    if (window.location.pathname.includes('profile.html') || window.location.pathname.includes('settings.html')) {
       window.location.href = 'index.html';
     } else {
       this.openAuthModal('login');
@@ -2962,6 +3027,9 @@ class App {
 
       const data = await res.json();
       if (data && data.success) {
+        if (data.token) {
+          localStorage.setItem('nv_auth_token', data.token);
+        }
         this.showToast(data.message || '🎉 Пароль успешно изменен!', 'success');
         if (oldPassEl) oldPassEl.value = '';
         if (newPassEl) newPassEl.value = '';

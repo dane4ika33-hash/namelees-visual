@@ -54,6 +54,9 @@
           if (data && data.success) {
             localStorage.setItem('nv_auth_token', data.token);
             localStorage.setItem('nv_current_user_email', email);
+            if (data.user) {
+              localStorage.setItem('nv_cached_user', JSON.stringify(Object.assign({}, data.user, { balanceRub: data.user.balance, unlockedItems: data.purchases || [] })));
+            }
             window.location.reload();
           } else {
             alert((data && data.message) ? data.message : 'Ошибка входа');
@@ -86,6 +89,9 @@
           if (data && data.success) {
             localStorage.setItem('nv_auth_token', data.token);
             localStorage.setItem('nv_current_user_email', email);
+            if (data.user) {
+              localStorage.setItem('nv_cached_user', JSON.stringify(Object.assign({}, data.user, { balanceRub: data.user.balance, unlockedItems: [] })));
+            }
             window.location.reload();
           } else {
             alert((data && data.message) ? data.message : 'Ошибка регистрации');
