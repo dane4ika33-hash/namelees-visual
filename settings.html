@@ -393,6 +393,11 @@
           <span id="header-user-nickname">Войти</span>
         </button>
 
+        <!-- Settings Button -->
+        <a href="settings.html" class="header-settings-btn active" title="Настройки аккаунта">
+          <span>⚙️</span>
+        </a>
+
         <button class="action-btn outline-btn btn-sm" id="prof-header-logout-btn" onclick="window.app.logoutUser()" title="Выйти из аккаунта">
           🚪 Выйти
         </button>
@@ -728,6 +733,35 @@
       </div>
     </div>
   </footer>
+
+  <!-- ================================================================
+       Mobile Bottom Navigation Bar (App Bar)
+       ================================================================ -->
+  <nav class="mobile-bottom-nav" aria-label="Мобильная навигация">
+    <a href="index.html#shop" class="mobile-nav-item" id="mnav-shop">
+      <span class="mnav-icon">🛍️</span>
+      <span class="mnav-label">Каталог</span>
+    </a>
+    <a href="profile.html#bonus" class="mobile-nav-item" id="mnav-bonus">
+      <span class="mnav-icon">🎡</span>
+      <span class="mnav-label">Бонус</span>
+    </a>
+    <button type="button" class="mobile-nav-item" id="mnav-cart" onclick="if(window.app){window.app.openCart();}">
+      <span class="mnav-icon-wrap">
+        <span class="mnav-icon">🛒</span>
+        <span class="mnav-cart-badge" id="mobile-cart-badge" style="display: none;">0</span>
+      </span>
+      <span class="mnav-label">Корзина</span>
+    </button>
+    <a href="profile.html" class="mobile-nav-item" id="mnav-profile">
+      <span class="mnav-icon">👤</span>
+      <span class="mnav-label">Профиль</span>
+    </a>
+    <a href="settings.html" class="mobile-nav-item active" id="mnav-settings">
+      <span class="mnav-icon">⚙️</span>
+      <span class="mnav-label">Настройки</span>
+    </a>
+  </nav>
 
   <!-- Scripts -->
   <script src="js/products-data.js?v=20260919_17"></script>

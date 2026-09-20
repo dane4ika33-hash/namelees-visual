@@ -33,10 +33,16 @@
   --transition-normal: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -45,12 +51,48 @@ body {
   font-family: var(--font-sans);
   line-height: 1.6;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  touch-action: pan-y;
   background-image: 
     radial-gradient(circle at 50% -10%, rgba(168, 85, 247, 0.18) 0%, transparent 50%),
     radial-gradient(circle at 100% 40%, rgba(147, 51, 234, 0.08) 0%, transparent 40%),
     radial-gradient(circle at 0% 80%, rgba(251, 191, 36, 0.05) 0%, transparent 40%);
   background-attachment: fixed;
   min-height: 100vh;
+}
+
+/* Eliminate 300ms mobile tap delay */
+a, button, input, select, textarea, .action-btn, .nav-link, .quick-nav-pill, .mobile-nav-item, .product-card, .header-settings-btn {
+  touch-action: manipulation;
+}
+
+/* GPU Hardware Acceleration for smooth 60fps animations */
+.product-card,
+.action-btn,
+.balance-pill,
+.header-user-btn,
+.cart-header-btn,
+.header-settings-btn,
+.profile-sidebar-card,
+.profile-action-card,
+.settings-box-card {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Modern rendering optimization: only render items when scrolled near viewport */
+.product-card {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 420px;
+}
+
+.review-card {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 160px;
 }
 
 /* Custom Scrollbar */
@@ -272,6 +314,31 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+}
+
+.header-settings-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-subtle);
+  color: #94a3b8;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: var(--transition-fast);
+  line-height: 1;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.header-settings-btn:hover,
+.header-settings-btn.active {
+  background: rgba(56, 189, 248, 0.15);
+  border-color: #38bdf8;
+  color: #38bdf8;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
 }
 
 .admin-header-btn {
@@ -1587,6 +1654,123 @@ body {
   .header-actions { gap: 8px; }
 }
 
+/* ===================================================================
+   Mobile Bottom Navigation Bar (App Bar)
+   =================================================================== */
+.mobile-bottom-nav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-bottom: 74px; /* Essential space for fixed mobile bottom bar */
+  }
+
+  /* Optimize glassmorphism blurs on mobile for 60-120fps scrolling */
+  .site-header {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    background: rgba(9, 10, 16, 0.94);
+  }
+  .product-card,
+  .profile-sidebar-card,
+  .profile-section-card,
+  .settings-box-card {
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  .mobile-bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    height: 62px;
+    background: rgba(10, 12, 20, 0.96);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.6);
+    padding: 4px 6px calc(4px + env(safe-area-inset-bottom, 0px));
+    justify-content: space-around;
+    align-items: center;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+  }
+
+  .mobile-nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 6px 0;
+    border-radius: 10px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    touch-action: manipulation;
+    user-select: none;
+  }
+
+  .mobile-nav-item:active {
+    transform: scale(0.92);
+  }
+
+  .mobile-nav-item.active {
+    color: #c084fc;
+    background: rgba(192, 132, 252, 0.12);
+  }
+
+  .mobile-nav-item#mnav-settings.active {
+    color: #38bdf8;
+    background: rgba(56, 189, 248, 0.12);
+  }
+
+  .mnav-icon-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mnav-icon {
+    font-size: 1.22rem;
+    line-height: 1;
+    display: block;
+  }
+
+  .mnav-cart-badge {
+    position: absolute;
+    top: -6px;
+    right: -10px;
+    background: #ec4899;
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 800;
+    min-width: 17px;
+    height: 17px;
+    padding: 0 4px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 8px rgba(236, 72, 153, 0.7);
+  }
+
+  .space-bg-floating-toggle {
+    bottom: 74px !important;
+  }
+}
+
 @media (max-width: 640px) {
   .container {
     padding-left: 12px;
@@ -1660,6 +1844,11 @@ body {
     padding: 6px 10px;
     font-size: 0.82rem;
   }
+
+  .header-settings-btn {
+    padding: 6px 9px;
+    font-size: 0.85rem;
+  }
 }
 
 @media (max-width: 380px) {
@@ -1681,6 +1870,10 @@ body {
   }
   #header-user-nickname {
     max-width: 42px;
+  }
+  .header-settings-btn {
+    padding: 5px 7px;
+    font-size: 0.8rem;
   }
 }
 

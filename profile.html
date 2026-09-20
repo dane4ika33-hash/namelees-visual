@@ -292,6 +292,11 @@
           <span id="header-user-nickname">Войти</span>
         </button>
 
+        <!-- Settings Button -->
+        <a href="settings.html" class="header-settings-btn" title="Настройки аккаунта">
+          <span>⚙️</span>
+        </a>
+
         <button class="action-btn outline-btn btn-sm" id="prof-header-logout-btn" onclick="window.app.logoutUser()" title="Выйти из аккаунта">
           🚪 Выйти
         </button>
@@ -318,32 +323,30 @@
         </div>
         <input type="file" id="profile-avatar-file-input" accept="image/*" style="display: none;" onchange="window.app.handleAvatarUpload(event)">
         <button type="button" class="action-btn outline-btn btn-xs mb-3" id="page-prof-change-photo-btn" onclick="document.getElementById('profile-avatar-file-input').click()" style="border-radius: 999px; font-size: 0.78rem; padding: 4px 14px; margin: 0 auto 12px; display: none; align-items: center; gap: 6px;">
-          <span>📷</span> <span>Сменить фото</span>
-        </button>
-        <button type="button" class="action-btn primary-btn btn-xs mb-3" id="page-prof-login-prompt-btn" onclick="if(window.app){window.app.openAuthModal('login');}else{document.getElementById('auth-modal-backdrop').classList.add('active');}" style="border-radius: 999px; font-size: 0.78rem; padding: 5px 14px; margin: 0 auto 12px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
-          <span>👤</span> <span>Войти в аккаунт</span>
+          📷 Изменить фото
         </button>
 
-        <h2 class="text-2xl font-black text-white mb-2" id="page-prof-nickname">Гость</h2>
+        <h2 class="profile-username" id="page-prof-nickname">Загрузка...</h2>
+        <div class="profile-role-badge" id="page-prof-status">ИГРОК</div>
         
-        <!-- User Info Cards (Separated) -->
-        <div class="profile-user-badges-grid">
+        <div class="profile-email-badge">
+          <span>📧</span>
+          <span id="page-prof-email">...</span>
+        </div>
+
+        <button class="action-btn primary-btn w-full mb-3" id="page-prof-login-prompt-btn" style="display: none;" onclick="window.app.openAuthModal('login')">
+          🔑 Войти в свой аккаунт
+        </button>
+
+        <!-- Profile Metadata Pills -->
+        <div class="profile-info-pills">
           <div class="profile-info-pill">
-            <span class="info-pill-icon" id="page-prof-status-icon">🎮</span>
+            <span class="info-pill-icon">🎮</span>
             <div>
               <div class="info-pill-label">Статус аккаунта</div>
-              <div class="info-pill-val" id="page-prof-status" style="color: #38bdf8; font-weight: 700;">Игрок</div>
+              <div class="info-pill-val" id="page-prof-status-icon">🎮 Игрок</div>
             </div>
           </div>
-
-          <div class="profile-info-pill">
-            <span class="info-pill-icon">📧</span>
-            <div>
-              <div class="info-pill-label">Почта игрока</div>
-              <div class="info-pill-val" id="page-prof-email">Не авторизован</div>
-            </div>
-          </div>
-
           <div class="profile-info-pill">
             <span class="info-pill-icon">📅</span>
             <div>
@@ -360,6 +363,9 @@
           <button class="action-btn gold-btn w-full mt-3" onclick="window.app.openTopupModal()">
             💳 Пополнить баланс
           </button>
+          <a href="settings.html" class="action-btn primary-btn w-full mt-2" style="background: linear-gradient(135deg, rgba(56, 189, 248, 0.25), rgba(56, 189, 248, 0.1)); border: 1px solid rgba(56, 189, 248, 0.45); color: #38bdf8; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
+            ⚙️ Настройки аккаунта
+          </a>
         </div>
 
         <!-- Distinct Action Cards (Separated with icons & descriptions) -->
@@ -960,6 +966,35 @@
       </div>
     </div>
   </footer>
+
+  <!-- ================================================================
+       Mobile Bottom Navigation Bar (App Bar)
+       ================================================================ -->
+  <nav class="mobile-bottom-nav" aria-label="Мобильная навигация">
+    <a href="index.html#shop" class="mobile-nav-item" id="mnav-shop">
+      <span class="mnav-icon">🛍️</span>
+      <span class="mnav-label">Каталог</span>
+    </a>
+    <a href="profile.html#bonus" class="mobile-nav-item" id="mnav-bonus">
+      <span class="mnav-icon">🎡</span>
+      <span class="mnav-label">Бонус</span>
+    </a>
+    <button type="button" class="mobile-nav-item" id="mnav-cart" onclick="if(window.app){window.app.openCart();}">
+      <span class="mnav-icon-wrap">
+        <span class="mnav-icon">🛒</span>
+        <span class="mnav-cart-badge" id="mobile-cart-badge" style="display: none;">0</span>
+      </span>
+      <span class="mnav-label">Корзина</span>
+    </button>
+    <a href="profile.html" class="mobile-nav-item active" id="mnav-profile">
+      <span class="mnav-icon">👤</span>
+      <span class="mnav-label">Профиль</span>
+    </a>
+    <a href="settings.html" class="mobile-nav-item" id="mnav-settings">
+      <span class="mnav-icon">⚙️</span>
+      <span class="mnav-label">Настройки</span>
+    </a>
+  </nav>
 
   <!-- Scripts -->
   <script src="js/products-data.js?v=20260919_17"></script>

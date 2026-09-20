@@ -87,6 +87,8 @@ class App {
     window.addEventListener('hashchange', handleBonusHash);
 
     this.updateUserUI();
+    this.initMobileBottomNav();
+    window.addEventListener('hashchange', () => this.initMobileBottomNav());
 
     // Auto-open Welcome / Registration modal only for truly brand-new visitors who have no token or cached account
     const hasExistingAuth = !!(this.currentUser || localStorage.getItem('nv_auth_token') || localStorage.getItem('nv_cached_user'));
@@ -1573,6 +1575,39 @@ class App {
     if (badge) {
       badge.textContent = this.cart.length.toString();
       badge.style.display = this.cart.length > 0 ? 'inline-flex' : 'none';
+    }
+    const mobileBadge = document.getElementById('mobile-cart-badge');
+    if (mobileBadge) {
+      mobileBadge.textContent = this.cart.length.toString();
+      mobileBadge.style.display = this.cart.length > 0 ? 'inline-flex' : 'none';
+    }
+  }
+
+  initMobileBottomNav() {
+    const path = window.location.pathname.toLowerCase();
+    const hash = window.location.hash.toLowerCase();
+    
+    document.querySelectorAll('.mobile-nav-item').forEach(el => el.classList.remove('active'));
+
+    if (path.includes('settings.html')) {
+      const s = document.getElementById('mnav-settings');
+      if (s) s.classList.add('active');
+    } else if (path.includes('profile.html')) {
+      if (hash === '#bonus') {
+        const b = document.getElementById('mnav-bonus');
+        if (b) b.classList.add('active');
+      } else {
+        const p = document.getElementById('mnav-profile');
+        if (p) p.classList.add('active');
+      }
+    } else {
+      if (hash === '#bonus' || hash === '#roulette' || hash === '#lootbox') {
+        const b = document.getElementById('mnav-bonus');
+        if (b) b.classList.add('active');
+      } else {
+        const sh = document.getElementById('mnav-shop');
+        if (sh) sh.classList.add('active');
+      }
     }
   }
 
