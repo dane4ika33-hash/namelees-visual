@@ -1,0 +1,3 @@
+# Namelees Visual uses standard Python 3 libraries:
+# sqlite3, urllib, hashlib, hmac, secrets, http.server, json
+# No external pip packages needed!

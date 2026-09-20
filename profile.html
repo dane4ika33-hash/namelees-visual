@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Мой профиль — Namelees Visual</title>
+  <meta name="description" content="Личный кабинет игрока Namelees Visual: баланс рублей, ежедневный лутбокс, скачивание ресурспаков и конфигов.">
+  <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css?v=20260919_17">
+  <script>
+    function switchAuthTab(tab) {
+      var regBtn = document.getElementById('auth-tab-btn-register');
+      var loginBtn = document.getElementById('auth-tab-btn-login');
+      var regForm = document.getElementById('auth-form-register');
+      var loginForm = document.getElementById('auth-form-login');
+      if (tab === 'login') {
+        if (loginBtn) loginBtn.classList.add('active');
+        if (regBtn) regBtn.classList.remove('active');
+        if (loginForm) loginForm.style.display = 'block';
+        if (regForm) regForm.style.display = 'none';
+      } else {
+        if (regBtn) regBtn.classList.add('active');
+        if (loginBtn) loginBtn.classList.remove('active');
+        if (regForm) regForm.style.display = 'block';
+        if (loginForm) loginForm.style.display = 'none';
+      }
+    }
+    function closeAuthModal() {
+      var modal = document.getElementById('auth-modal-backdrop');
+      if (modal) modal.classList.remove('active');
+    }
+    function handleAuthLoginSubmit(e) {
+      if (e) e.preventDefault();
+      var emailEl = document.getElementById('login-email');
+      var passEl = document.getElementById('login-password');
+      var email = emailEl ? emailEl.value.trim().toLowerCase() : '';
+      var pass = passEl ? passEl.value.trim() : '';
+      if (!email || !pass) {
+        alert('Введите почту и пароль!');
+        return;
+      }
+      if (window.app && typeof window.app.loginUser === 'function') {
+        window.app.loginUser(email, pass);
+      } else {
+        fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email, password: pass })
+        }).then(function(r) { return r.json(); }).then(function(data) {
+          if (data && data.success) {
+            localStorage.setItem('nv_auth_token', data.token);
+            localStorage.setItem('nv_current_user_email', email);
+            window.location.reload();
+          } else {
+            alert((data && data.message) ? data.message : 'Ошибка входа');
+          }
+        }).catch(function() {
+          alert('Ошибка соединения с сервером');
+        });
+      }
+    }
+    function handleAuthRegisterSubmit(e) {
+      if (e) e.preventDefault();
+      var emailEl = document.getElementById('reg-email');
+      var passEl = document.getElementById('reg-password');
+      var nickEl = document.getElementById('reg-nickname');
+      var email = emailEl ? emailEl.value.trim().toLowerCase() : '';
+      var pass = passEl ? passEl.value.trim() : '';
+      var nick = nickEl ? nickEl.value.trim() : '';
+      if (!email || !pass) {
+        alert('Заполните обязательные поля!');
+        return;
+      }
+      if (window.app && typeof window.app.registerUser === 'function') {
+        window.app.registerUser(email, pass, nick);
+      } else {
+        fetch('/api/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email, password: pass, nickname: nick })
+        }).then(function(r) { return r.json(); }).then(function(data) {
+          if (data && data.success) {
+            localStorage.setItem('nv_auth_token', data.token);
+            localStorage.setItem('nv_current_user_email', email);
+            window.location.reload();
+          } else {
+            alert((data && data.message) ? data.message : 'Ошибка регистрации');
+          }
+        }).catch(function() {
+          alert('Ошибка соединения с сервером');
+        });
+      }
+    }
+  </script>
+  <style>
+    .profile-page-grid {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 32px;
+      margin: 40px 0 80px;
+    }
+    .profile-sidebar-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border-glow);
+      border-radius: var(--radius-xl);
+      padding: 32px 24px;
+      text-align: center;
+      position: sticky;
+      top: 96px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    @media (max-width: 980px) {
+      .profile-page-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 24px;
+        margin: 16px 0 50px;
+      }
+      .profile-sidebar-card {
+        position: static !important;
+        top: auto !important;
+        padding: 24px 18px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        width: 100%;
+        box-sizing: border-box;
+      }
+      .profile-content-area {
+        width: 100%;
+        box-sizing: border-box;
+      }
+      .lootbox-profile-card {
+        padding: 26px 18px;
+        margin-bottom: 24px;
+      }
+      .roulette-wheel-container {
+        width: min(290px, 80vw);
+        height: min(290px, 80vw);
+        margin: 20px auto 20px;
+      }
+    }
+    .profile-avatar-wrapper {
+      position: relative;
+      width: 88px;
+      height: 88px;
+      margin: 0 auto 10px;
+      cursor: pointer;
+      border-radius: 50%;
+    }
+    .profile-large-avatar-img {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #c084fc;
+      box-shadow: 0 0 25px rgba(192, 132, 252, 0.5);
+      display: block;
+    }
+    .profile-avatar-overlay {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      backdrop-filter: blur(2px);
+    }
+    .profile-avatar-wrapper:hover .profile-avatar-overlay {
+      opacity: 1;
+    }
+    .profile-email-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: #94a3b8;
+      font-size: 0.82rem;
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin: 12px 0 20px;
+      word-break: break-all;
+    }
+    .profile-card-balance-box {
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin: 20px 0;
+      overflow: hidden;
+      box-sizing: border-box;
+      word-break: break-word;
+    }
+    .profile-balance-val {
+      font-size: clamp(1.4rem, 4vw, 1.85rem);
+      font-weight: 900;
+      color: #fbbf24;
+      text-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+      word-break: break-word;
+      overflow-wrap: anywhere;
+      max-width: 100%;
+      line-height: 1.25;
+      margin: 6px 0;
+    }
+    .lootbox-profile-card {
+      background: radial-gradient(circle at 50% 20%, #1e1b4b 0%, #0c0e17 80%);
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius-xl);
+      padding: 36px 30px;
+      text-align: center;
+      margin-bottom: 36px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 40px rgba(251, 191, 36, 0.12);
+    }
+    .profile-section-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: 28px;
+      margin-bottom: 32px;
+    }
+    .profile-section-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================================================================
+       Header / Navbar
+       ================================================================ -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand-logo-link">
+        <img src="assets/logo.jpg" alt="Namelees Visual Logo" class="header-logo-img">
+        <div class="brand-title-wrap">
+          <span class="brand-name">Namelees Visual</span>
+          <span class="brand-subtitle">PvP & Visual Mod Store</span>
+        </div>
+      </a>
+
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link">← В магазин</a>
+        <a href="index.html#shop" class="nav-link">Каталог товаров</a>
+        <a href="profile.html" class="nav-link active" style="color: #c084fc;">Мой профиль</a>
+        <a href="settings.html" class="nav-link">⚙️ Настройки</a>
+      </nav>
+
+      <div class="header-actions">
+        <!-- Telegram Channel Link -->
+        <a href="https://t.me/NameleesVisual" target="_blank" rel="noopener noreferrer" class="telegram-header-btn" title="Наш Telegram-канал">
+          <span>✈️</span>
+          <span>Telegram</span>
+        </a>
+
+        <!-- Balance Rubles -->
+        <div class="balance-pill" onclick="window.app.openTopupModal()" title="Ваш баланс (нажмите для пополнения)">
+          <span>💵</span>
+          <span id="header-balance-amount">0&nbsp;₽</span>
+        </div>
+
+        <!-- User Profile Button / Login Button -->
+        <button type="button" class="header-user-btn" id="header-user-profile-btn" onclick="if(window.app){window.app.handleHeaderUserClick();}else{document.getElementById('auth-modal-backdrop').classList.add('active');}" title="Войти в аккаунт" style="display: none;">
+          <img id="header-user-avatar-img" src="" alt="Avatar" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover; display: none;">
+          <span class="user-avatar-circle" id="header-user-avatar-char">👤</span>
+          <span id="header-user-nickname">Войти</span>
+        </button>
+
+        <button class="action-btn outline-btn btn-sm" id="prof-header-logout-btn" onclick="window.app.logoutUser()" title="Выйти из аккаунта">
+          🚪 Выйти
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================================================================
+       Dedicated Profile Main View
+       ================================================================ -->
+  <main class="container">
+    <div class="profile-page-grid">
+      
+      <!-- Left Column: User Profile Info Card -->
+      <aside class="profile-sidebar-card">
+        <!-- Interactive Avatar with Gallery Picker -->
+        <div class="profile-avatar-wrapper" onclick="document.getElementById('profile-avatar-file-input').click()" title="Нажмите, чтобы загрузить аватарку из галереи">
+          <div class="profile-large-avatar" id="page-prof-avatar-char" style="margin: 0 auto;">U</div>
+          <img id="page-prof-avatar-img" src="" alt="Аватар" class="profile-large-avatar-img" style="display: none;">
+          <div class="profile-avatar-overlay">
+            <span style="font-size: 1.3rem;">📷</span>
+            <span>ИЗМЕНИТЬ</span>
+          </div>
+        </div>
+        <input type="file" id="profile-avatar-file-input" accept="image/*" style="display: none;" onchange="window.app.handleAvatarUpload(event)">
+        <button type="button" class="action-btn outline-btn btn-xs mb-3" id="page-prof-change-photo-btn" onclick="document.getElementById('profile-avatar-file-input').click()" style="border-radius: 999px; font-size: 0.78rem; padding: 4px 14px; margin: 0 auto 12px; display: none; align-items: center; gap: 6px;">
+          <span>📷</span> <span>Сменить фото</span>
+        </button>
+        <button type="button" class="action-btn primary-btn btn-xs mb-3" id="page-prof-login-prompt-btn" onclick="if(window.app){window.app.openAuthModal('login');}else{document.getElementById('auth-modal-backdrop').classList.add('active');}" style="border-radius: 999px; font-size: 0.78rem; padding: 5px 14px; margin: 0 auto 12px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
+          <span>👤</span> <span>Войти в аккаунт</span>
+        </button>
+
+        <h2 class="text-2xl font-black text-white mb-2" id="page-prof-nickname">Гость</h2>
+        
+        <!-- User Info Cards (Separated) -->
+        <div class="profile-user-badges-grid">
+          <div class="profile-info-pill">
+            <span class="info-pill-icon" id="page-prof-status-icon">🎮</span>
+            <div>
+              <div class="info-pill-label">Статус аккаунта</div>
+              <div class="info-pill-val" id="page-prof-status" style="color: #38bdf8; font-weight: 700;">Игрок</div>
+            </div>
+          </div>
+
+          <div class="profile-info-pill">
+            <span class="info-pill-icon">📧</span>
+            <div>
+              <div class="info-pill-label">Почта игрока</div>
+              <div class="info-pill-val" id="page-prof-email">Не авторизован</div>
+            </div>
+          </div>
+
+          <div class="profile-info-pill">
+            <span class="info-pill-icon">📅</span>
+            <div>
+              <div class="info-pill-label">Дата регистрации</div>
+              <div class="info-pill-val" id="page-prof-reg-date">—</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Balance Box (Separated) -->
+        <div class="profile-card-balance-box">
+          <div class="profile-balance-label">Баланс кошелька</div>
+          <div class="profile-balance-val" id="page-prof-balance">0 ₽</div>
+          <button class="action-btn gold-btn w-full mt-3" onclick="window.app.openTopupModal()">
+            💳 Пополнить баланс
+          </button>
+        </div>
+
+        <!-- Distinct Action Cards (Separated with icons & descriptions) -->
+        <div class="profile-actions-list">
+          <a href="https://t.me/NameleesVisual" target="_blank" rel="noopener noreferrer" class="profile-action-card tg-card">
+            <span class="action-card-icon">✈️</span>
+            <div class="action-card-text">
+              <strong>Наш Telegram-канал</strong>
+              <span>Новости и эксклюзивные промокоды</span>
+            </div>
+            <span class="action-card-arrow">→</span>
+          </a>
+
+          <a href="index.html#shop" class="profile-action-card shop-card">
+            <span class="action-card-icon">🛍️</span>
+            <div class="action-card-text">
+              <strong>Каталог товаров</strong>
+              <span>Ресурспаки и конфиги</span>
+            </div>
+            <span class="action-card-arrow">→</span>
+          </a>
+
+          <a href="settings.html" class="profile-action-card settings-card" style="border-color: rgba(56, 189, 248, 0.35); background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(56, 189, 248, 0.02));">
+            <span class="action-card-icon">⚙️</span>
+            <div class="action-card-text">
+              <strong style="color: #38bdf8;">Настройки аккаунта</strong>
+              <span>Смена пароля и данные</span>
+            </div>
+            <span class="action-card-arrow" style="color: #38bdf8;">→</span>
+          </a>
+
+          <button type="button" class="profile-action-card admin-panel-card" id="page-prof-admin-btn" onclick="window.app.openAdminModal()" style="display: none; border-color: rgba(244, 63, 94, 0.4); background: linear-gradient(135deg, rgba(244, 63, 94, 0.12), rgba(244, 63, 94, 0.03));">
+            <span class="action-card-icon">⚙️</span>
+            <div class="action-card-text">
+              <strong style="color: #f43f5e;">Панель создателя</strong>
+              <span>Товары, игроки и промокоды (Alt+V)</span>
+            </div>
+            <span class="action-card-arrow" style="color: #f43f5e;">➔</span>
+          </button>
+
+          <a href="#daily-bonus-section" class="profile-action-card bonus-action-card" onclick="const s = document.getElementById('daily-bonus-section'); if(s) { s.scrollIntoView({behavior:'smooth', block:'center'}); }">
+            <span class="action-card-icon">🎡</span>
+            <div class="action-card-text">
+              <strong style="color: #c084fc;">Ежедневный бонус</strong>
+              <span>Вращать рулетку удачи</span>
+            </div>
+            <span class="action-card-arrow" style="color: #c084fc;">↓</span>
+          </a>
+
+          <button type="button" class="profile-action-card logout-card" onclick="window.app.logoutUser()">
+            <span class="action-card-icon">🚪</span>
+            <div class="action-card-text">
+              <strong>Выйти из аккаунта</strong>
+              <span>Завершить текущий сеанс</span>
+            </div>
+            <span class="action-card-arrow">✕</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- Right Column: Daily Lootbox & Purchases -->
+      <div class="profile-content-area">
+        
+        <!-- DAILY BONUS ROULETTE WHEEL SECTION -->
+        <a id="bonus"></a><a id="roulette"></a>
+        <section class="lootbox-profile-card" id="daily-bonus-section">
+          <div class="hero-badge-wrap mb-2">
+            <span>⚡ КИБЕР-РУЛЕТКА • ЕЖЕДНЕВНЫЙ ЛУТ</span>
+          </div>
+          <h2 class="text-3xl font-black mb-2">Колесо Наград</h2>
+          <p class="roulette-timer-display text-sm text-secondary mb-3">
+            Вращайте рулетку каждые 24 часа и выбивайте рубли на баланс, скидки и приватные конфиги!
+          </p>
+
+          <div class="flex items-center justify-center gap-4 text-xs text-muted mb-2">
+            <span>Серия входов: <strong class="roulette-streak-display text-amber-400 font-bold">1 дн.</strong></span>
+            <span>•</span>
+            <span>Шанс редкого дропа: <strong class="text-purple-400 font-bold">Повышен</strong></span>
+          </div>
+
+          <!-- Interactive Wheel Stage -->
+          <div class="roulette-wheel-container">
+            <div class="roulette-pointer-needle"></div>
+            <div class="roulette-wheel-rotator" onclick="window.lootbox.spinWheel()">
+              <canvas class="roulette-canvas" width="320" height="320"></canvas>
+            </div>
+            <div class="roulette-center-hub" onclick="window.lootbox.spinWheel()">
+              <span class="hub-logo-letter">⚡</span>
+              <span class="hub-spin-label">КРУТИТЬ</span>
+            </div>
+          </div>
+
+          <!-- Action Button -->
+          <button class="open-roulette-trigger-btn action-btn gold-btn" style="min-width: 260px; font-size: 1.05rem;" onclick="window.lootbox.spinWheel()">
+            <span>⚡ ВРАЩАТЬ РУЛЕТКУ</span>
+          </button>
+
+          <!-- Reward Reveal Card -->
+          <div class="roulette-result-card lootbox-result-card">
+            <!-- Filled on drop -->
+          </div>
+
+          <div class="mt-4">
+            <button type="button" class="text-xs text-muted" style="background:none; border:none; cursor:pointer; text-decoration:underline;" onclick="window.lootbox.resetCooldown()">
+              [Тест: сбросить кулдаун 24ч]
+            </button>
+          </div>
+        </section>
+
+        <!-- Unlocked Purchases & Downloads -->
+        <section class="profile-section-card">
+          <h3 class="profile-section-title">
+            <span>📦</span>
+            <span>Мои ресурспаки и конфиги</span>
+          </h3>
+          <p class="text-xs text-secondary mb-4">Все активированные и купленные файлы навсегда привязаны к вашей учетной записи:</p>
+          <div id="page-prof-purchases">
+            <!-- Rendered by JS -->
+          </div>
+        </section>
+
+        <!-- Lootbox Drops History -->
+        <section class="profile-section-card">
+          <h3 class="profile-section-title">
+            <span>🎁</span>
+            <span>История наград из рулетки</span>
+          </h3>
+          <div id="page-prof-drops">
+            <!-- Rendered by JS -->
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ================================================================
+       MODAL: Balance Top-Up (Пополнение баланса)
+       ================================================================ -->
+  <div class="modal-backdrop" id="topup-modal-backdrop">
+    <div class="modal-window" style="max-width: 470px; padding: 32px 26px; text-align: center;">
+      <button class="modal-close-btn" onclick="document.getElementById('topup-modal-backdrop').classList.remove('active')">✕</button>
+
+      <div style="font-size: 42px; margin-bottom: 8px;">💳</div>
+      <h2 class="text-xl font-bold mb-1">Пополнение баланса</h2>
+      <p class="text-xs text-secondary mb-4">Выберите или введите сумму для пополнения вашего кошелька:</p>
+
+      <div class="topup-amounts-grid">
+        <button type="button" class="topup-amount-btn" onclick="window.app.selectTopupAmount(100)">100 ₽</button>
+        <button type="button" class="topup-amount-btn active" onclick="window.app.selectTopupAmount(300)">300 ₽</button>
+        <button type="button" class="topup-amount-btn" onclick="window.app.selectTopupAmount(500)">500 ₽</button>
+        <button type="button" class="topup-amount-btn" onclick="window.app.selectTopupAmount(1000)">1000 ₽</button>
+      </div>
+
+      <div class="admin-form-group text-left mb-2">
+        <label>Сумма пополнения (в рублях)</label>
+        <input type="number" id="topup-amount-input" class="form-input" value="300" min="10" oninput="window.app.handleTopupAmountChange()">
+      </div>
+
+      <!-- Promo Code Section -->
+      <div class="topup-promo-card mb-3 text-left">
+        <div class="flex items-center justify-between mb-1">
+          <label class="text-xs font-semibold" style="margin: 0; color: #fbbf24;">🎟️ Промокод на скидку при пополнении</label>
+          <span id="topup-promo-badge" class="topup-promo-badge" style="display: none;"></span>
+        </div>
+        <div class="topup-promo-input-wrap">
+          <input type="text" id="topup-promo-input" class="form-input" placeholder="например: NAMELEES" style="text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em;" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();window.app.applyTopupPromo();}">
+          <button type="button" id="topup-promo-apply-btn" class="action-btn primary-btn btn-sm" onclick="window.app.applyTopupPromo()">
+            Применить
+          </button>
+        </div>
+        <div id="topup-promo-msg" class="topup-promo-msg" style="display: none;"></div>
+      </div>
+
+      <!-- Live Calculation Breakdown -->
+      <div class="topup-calc-box mb-4 text-left">
+        <div class="topup-calc-row">
+          <span>Сумма зачисления на баланс:</span>
+          <strong id="topup-calc-credit" class="text-white">300 ₽</strong>
+        </div>
+        <div class="topup-calc-row" id="topup-calc-discount-row" style="display: none; color: #4ade80;">
+          <span id="topup-calc-discount-label">Скидка по промокоду (-20%):</span>
+          <strong id="topup-calc-discount-val">-60 ₽</strong>
+        </div>
+        <div class="topup-calc-row topup-calc-total">
+          <span style="font-weight: 700;">Итого к оплате:</span>
+          <strong id="topup-calc-pay" style="color: #fbbf24; font-size: 1.25rem;">300 ₽</strong>
+        </div>
+      </div>
+
+      <div class="payment-methods-row" style="justify-content: center; margin-bottom: 16px;">
+        <span class="payment-badge">⚡ СБП (Быстрые платежи)</span>
+        <span class="payment-badge">💳 Банковская карта</span>
+        <span class="payment-badge">🟣 ЮMoney</span>
+      </div>
+
+      <button type="button" id="topup-submit-btn" class="action-btn gold-btn w-full" onclick="window.app.confirmTopup()" style="padding: 13px; font-weight: 800; font-size: 0.98rem;">
+        ⚡ ПОПОЛНИТЬ 300 ₽
+      </button>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       MODAL: Auth Gate (Регистрация / Вход с глазком пароля)
+       ================================================================ -->
+  <div class="modal-backdrop" id="auth-modal-backdrop">
+    <div class="modal-window" style="max-width: 440px; padding: 36px 28px; text-align: center;">
+      <button type="button" class="modal-close-btn" onclick="closeAuthModal()" title="Закрыть">✕</button>
+      <div style="margin-bottom: 20px;">
+        <img src="assets/logo.jpg" alt="Logo" style="width: 60px; height: 60px; border-radius: 14px; object-fit: cover; margin-bottom: 12px; box-shadow: 0 0 25px rgba(168, 85, 247, 0.5); border: 1px solid var(--border-glow);">
+        <h2 class="text-2xl font-black">NAMELEES VISUAL</h2>
+        <p class="text-xs text-secondary mt-1">Авторизуйтесь для входа в личный профиль</p>
+      </div>
+
+      <div class="auth-tabs-nav">
+        <button type="button" class="auth-tab-btn" id="auth-tab-btn-register" onclick="switchAuthTab('register')">Регистрация</button>
+        <button type="button" class="auth-tab-btn active" id="auth-tab-btn-login" onclick="switchAuthTab('login')">Вход</button>
+      </div>
+
+      <!-- Registration Form -->
+      <form id="auth-form-register" style="display: none;" onsubmit="handleAuthRegisterSubmit(event)">
+        <div class="text-center">
+          <div class="auth-welcome-chip">🎁 +50 ₽ НА БАЛАНС ПРИ РЕГИСТРАЦИИ</div>
+        </div>
+
+        <div class="admin-form-group text-left">
+          <label>Ваша электронная почта (Email)</label>
+          <input type="email" id="reg-email" class="form-input" placeholder="user@gmail.com" autocomplete="email" required>
+        </div>
+
+        <div class="admin-form-group text-left">
+          <label>Игровой никнейм</label>
+          <input type="text" id="reg-nickname" class="form-input" placeholder="например: EnderGod" autocomplete="nickname">
+        </div>
+
+        <div class="admin-form-group text-left">
+          <label>Придумайте пароль</label>
+          <div style="position: relative;">
+            <input type="password" id="reg-password" class="form-input" placeholder="Любой ваш пароль..." required minlength="3" autocomplete="new-password" style="padding-right: 42px;">
+            <button type="button" onclick="if(window.app){window.app.togglePassword('reg-password', this);}else{var p=document.getElementById('reg-password');p.type=p.type==='password'?'text':'password';}" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 16px;" title="Показать пароль">👁️</button>
+          </div>
+        </div>
+
+        <button type="submit" class="action-btn gold-btn w-full mt-3" style="cursor: pointer; padding: 12px; font-weight: 800;">
+          ✨ ЗАРЕГИСТРИРОВАТЬСЯ
+        </button>
+      </form>
+
+      <!-- Login Form -->
+      <form id="auth-form-login" onsubmit="handleAuthLoginSubmit(event)">
+        <div class="admin-form-group text-left">
+          <label>Ваша почта (Email)</label>
+          <input type="email" id="login-email" class="form-input" placeholder="user@gmail.com" autocomplete="username" required>
+        </div>
+
+        <div class="admin-form-group text-left">
+          <label>Пароль</label>
+          <div style="position: relative;">
+            <input type="password" id="login-password" class="form-input" placeholder="Ваш пароль..." autocomplete="current-password" required style="padding-right: 42px;">
+            <button type="button" onclick="if(window.app){window.app.togglePassword('login-password', this);}else{var p=document.getElementById('login-password');p.type=p.type==='password'?'text':'password';}" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 16px;" title="Показать пароль">👁️</button>
+          </div>
+        </div>
+
+        <button type="submit" id="auth-submit-login-btn" class="action-btn primary-btn w-full mt-4" style="cursor: pointer; padding: 12px; font-weight: 800;">
+          🚀 ВОЙТИ В АККАУНТ
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       MODAL: Admin Login / Password Protection
+       ================================================================ -->
+  <div class="modal-backdrop" id="admin-login-modal-backdrop">
+    <div class="modal-window" style="max-width: 420px; text-align: center; padding: 36px 28px;">
+      <button class="modal-close-btn" onclick="window.app.closeAllModals()">✕</button>
+      
+      <div style="font-size: 44px; margin-bottom: 12px;">🔒</div>
+      <h2 class="text-xl font-bold mb-2">Панель создателя</h2>
+      <p class="text-secondary text-xs mb-5">Введите пароль для управления товарами, базой промокодов и игроками.</p>
+
+      <form onsubmit="event.preventDefault(); window.app.submitAdminLogin();">
+        <div style="position: relative; margin-bottom: 16px;">
+          <input type="password" id="admin-password-input" class="form-input" placeholder="Введите пароль..." autocomplete="current-password" autofocus style="padding-right: 42px;">
+          <button type="button" onclick="window.app.togglePasswordVisibility()" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer;" title="Показать/скрыть пароль">👁️</button>
+        </div>
+
+        <button type="submit" class="action-btn primary-btn w-full mb-2">
+          🔑 ВОЙТИ В ПАНЕЛЬ
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       MODAL: Admin Panel & Promocodes Manager
+       ================================================================ -->
+  <div class="modal-backdrop" id="admin-modal-backdrop">
+    <div class="modal-window admin-modal-window">
+      <button class="modal-close-btn" onclick="window.app.closeAllModals()">✕</button>
+
+      <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
+        <div>
+          <h2 class="text-xl font-bold">⚙️ Панель управления Создателя</h2>
+          <p class="text-sm text-secondary">Редактируйте товары, управляйте базой игроков и промокодами на скидку</p>
+        </div>
+        <div class="flex gap-2 items-center flex-wrap">
+          <button class="action-btn primary-btn btn-xs" onclick="window.app.toggleAdminUsersView()" id="admin-toggle-users-btn" title="Посмотреть список всех игроков и их балансы">
+            👥 База игроков
+          </button>
+          <button class="action-btn primary-btn btn-xs" onclick="window.app.toggleAdminPromosView()" id="admin-toggle-promos-btn" title="База промокодов и процентных скидок на пополнение">
+            🎟️ База промокодов
+          </button>
+          <button class="action-btn primary-btn btn-xs" onclick="window.app.toggleAdminRouletteView()" id="admin-toggle-roulette-btn" title="Настройка выпадающих призов и шансов рулетки">
+            🎡 Призы рулетки
+          </button>
+          <button class="action-btn outline-btn btn-xs" onclick="window.app.forceSyncProductsToServer()" title="Сохранить текущий каталог товаров на сервер для всех телефонов и ПК">
+            ☁️ Синхронизировать
+          </button>
+          <button class="action-btn outline-btn btn-xs" onclick="window.app.promptChangePassword()" title="Сменить пароль администратора">
+            🔑 Пароль
+          </button>
+          <button class="action-btn outline-btn btn-xs" onclick="window.app.logoutAdmin()" title="Выйти из режима администратора">
+            🚪 Выйти
+          </button>
+        </div>
+      </div>
+
+      <div class="admin-layout-grid">
+        <!-- Products list column -->
+        <div class="admin-sidebar">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-sm font-bold">Список товаров</span>
+            <button class="action-btn primary-btn btn-xs" onclick="window.app.resetAdminForm()">➕ Новый</button>
+          </div>
+          <div id="admin-products-list" style="max-height: 480px; overflow-y: auto; padding-right: 4px;">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Product Edit / Create Form -->
+        <div class="admin-form-col" id="admin-editor-form">
+          <h3 id="admin-form-title" class="text-lg font-bold mb-3">➕ Добавить новый товар</h3>
+          <input type="hidden" id="admin-prod-id">
+
+          <div class="admin-form-group">
+            <label>Название ресурспака или конфига</label>
+            <input type="text" id="admin-prod-title" class="form-input" placeholder="например: Nebula Pulse 32x PvP">
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="admin-form-group">
+              <label>Категория</label>
+              <select id="admin-prod-category" class="form-input" style="background:#11131e; color:#fff;">
+                <option value="resourcepack">Ресурспак (Resource Pack)</option>
+                <option value="config">Конфиг (Config)</option>
+                <option value="mod">Мод / Визуал (Mod/Visual)</option>
+              </select>
+            </div>
+            <div class="admin-form-group">
+              <label>Цена в ₽ (0 = Бесплатно)</label>
+              <input type="number" id="admin-prod-price" class="form-input" value="199" min="0">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="admin-form-group">
+              <label>Бейдж на карточке</label>
+              <input type="text" id="admin-prod-badge" class="form-input" placeholder="ХИТ ПРОДАЖ / NEW / PRO">
+            </div>
+            <div class="admin-form-group">
+              <label>Теги (через запятую)</label>
+              <input type="text" id="admin-prod-tags" class="form-input" placeholder="PvP, 16x, FunTime, 1.21">
+            </div>
+          </div>
+
+          <!-- PHOTO ATTACHMENT SECTION -->
+          <div class="admin-form-group">
+            <label>📸 Фотографии и скриншоты товара</label>
+            
+            <div class="file-dropzone-box" onclick="document.getElementById('admin-file-input').click()">
+              <div style="font-size: 28px; margin-bottom: 6px;">📁</div>
+              <strong>Нажмите, чтобы прикрепить фото с вашего компьютера</strong>
+              <div class="text-xs text-muted mt-1">Поддерживаются любые картинки (.png, .jpg, .webp). Можно выбрать сразу несколько!</div>
+              <input type="file" id="admin-file-input" accept="image/*" multiple style="display: none;" onchange="window.app.handlePhotoUpload(this)">
+            </div>
+
+            <div style="display: flex; gap: 8px; margin-top: 10px;">
+              <input type="url" id="admin-img-url-input" class="form-input" placeholder="Или вставьте прямую ссылку на фото из интернета...">
+              <button type="button" class="action-btn outline-btn btn-sm" onclick="window.app.addPhotoByUrl()">Добавить</button>
+            </div>
+
+            <div class="attached-photos-container" id="admin-attached-photos">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+
+          <div class="admin-form-group">
+            <label>Подробное описание товара</label>
+            <textarea id="admin-prod-desc" class="form-input" rows="3" placeholder="Опишите особенности, совместимость версий и преимущества..."></textarea>
+          </div>
+
+          <div class="flex gap-2">
+            <button class="action-btn primary-btn" onclick="window.app.saveAdminProduct()">
+              💾 СОХРАНИТЬ ТОВАР
+            </button>
+            <button class="action-btn outline-btn" onclick="window.app.resetAdminForm()">
+              Очистить форму
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Users DB View (Toggled) -->
+      <div id="admin-users-view" style="display: none; padding-top: 14px;">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-lg font-bold">👥 Зарегистрированные игроки и балансы (База SQLite)</h3>
+          <button class="action-btn outline-btn btn-xs" onclick="window.app.loadAdminUsers()">🔄 Обновить</button>
+        </div>
+        <div id="admin-users-table-container" style="max-height: 480px; overflow-y: auto; background: rgba(0,0,0,0.3); border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.08); padding: 12px;">
+          <!-- Loaded by JS -->
+        </div>
+      </div>
+
+      <!-- Admin Promocodes DB View (Toggled) -->
+      <div id="admin-promos-view" style="display: none; padding-top: 14px;">
+        <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+          <div>
+            <h3 class="text-lg font-bold">🎟️ База промокодов (Скидки на пополнение баланса)</h3>
+            <p class="text-xs text-secondary">Игроки вводят промокод в окне пополнения и получают процентную скидку к сумме оплаты</p>
+          </div>
+          <div class="flex gap-2">
+            <button class="action-btn primary-btn btn-xs" onclick="window.app.openPromoEditor()">➕ Добавить промокод</button>
+            <button class="action-btn outline-btn btn-xs" onclick="window.app.loadAdminPromos()">🔄 Обновить</button>
+          </div>
+        </div>
+
+        <!-- Promo Create / Edit Form -->
+        <div id="admin-promo-form-wrap" style="display: none; background: rgba(255,255,255,0.04); border: 1px solid rgba(251, 191, 36, 0.35); border-radius: var(--radius-sm); padding: 14px; margin-bottom: 14px;">
+          <h4 id="admin-promo-form-title" class="font-bold text-sm mb-3" style="color: #fbbf24;">➕ Добавить новый промокод</h4>
+          <input type="hidden" id="admin-promo-id">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
+            <div class="admin-form-group" style="margin-bottom: 8px;">
+              <label class="text-xs">Слово / Промокод (латиница или цифры)</label>
+              <input type="text" id="admin-promo-code" class="form-input" placeholder="например: NAMELEES" style="text-transform: uppercase; font-weight: 700;">
+            </div>
+            <div class="admin-form-group" style="margin-bottom: 8px;">
+              <label class="text-xs">Процент скидки (от 1% до 99%)</label>
+              <input type="number" id="admin-promo-discount" class="form-input" placeholder="20" min="1" max="99">
+            </div>
+            <div class="admin-form-group" style="margin-bottom: 8px;">
+              <label class="text-xs">Описание (подсказка)</label>
+              <input type="text" id="admin-promo-desc" class="form-input" placeholder="Скидка 20% на пополнение баланса">
+            </div>
+            <div class="admin-form-group" style="margin-bottom: 8px; display: flex; flex-direction: column; justify-content: center;">
+              <label class="text-xs">Статус промокода</label>
+              <label style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; cursor: pointer; color: #fff; margin-top: 6px;">
+                <input type="checkbox" id="admin-promo-active" checked style="width: 18px; height: 18px; cursor: pointer;">
+                <span>Включен (активен)</span>
+              </label>
+            </div>
+          </div>
+          <div class="flex gap-2 mt-3">
+            <button type="button" class="action-btn gold-btn btn-sm" onclick="window.app.saveAdminPromo()">💾 Сохранить промокод</button>
+            <button type="button" class="action-btn outline-btn btn-sm" onclick="window.app.closePromoEditor()">Отмена</button>
+          </div>
+        </div>
+
+        <div id="admin-promos-table-container" style="max-height: 480px; overflow-y: auto; background: rgba(0,0,0,0.3); border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.08); padding: 12px;">
+          <!-- Loaded by JS -->
+        </div>
+      </div>
+
+      <!-- Admin Roulette Items DB View (Toggled) -->
+      <div id="admin-roulette-view" style="display: none; padding-top: 14px;">
+        <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+          <div>
+            <h3 class="text-lg font-bold">🎡 Настройка предметов рулетки (Ежедневный бонус)</h3>
+            <p class="text-xs text-secondary">Редактируйте призы, настраивайте шансы выпадения (веса), суммы начисления и редкость</p>
+          </div>
+          <div class="flex gap-2">
+            <button class="action-btn primary-btn btn-xs" onclick="window.app.openRouletteItemEditor()">➕ Добавить предмет</button>
+            <button class="action-btn outline-btn btn-xs" onclick="window.app.resetAdminRouletteItems()" title="Сбросить все призы рулетки к исходным 8 секторам">🔄 Сброс к стандартным</button>
+            <button class="action-btn outline-btn btn-xs" onclick="window.app.loadAdminRouletteItems()">🔄 Обновить</button>
+          </div>
+        </div>
+
+        <!-- Roulette Item Create / Edit Form -->
+        <div id="admin-roulette-form-wrap" style="display: none; background: rgba(255,255,255,0.04); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: var(--radius-sm); padding: 14px; margin-bottom: 14px;">
+          <h4 id="admin-roulette-form-title" class="font-bold text-sm mb-3" style="color: #38bdf8;">➕ Добавить новый приз в рулетку</h4>
+          <input type="hidden" id="admin-roulette-id">
+          <input type="hidden" id="admin-roulette-key">
+          
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
+            <div class="admin-form-group" style="margin-bottom: 8px;">
+              <label class="text-xs">Тип награды</label>
+              <select id="admin-roulette-type" class="form-input" onchange="window.app.handleRouletteTypeChange()" style="background:#11131e; color:#fff;">
+                <option value="rubles">💵 Рубли на баланс кошелька</option>
+                <option value="promo">🎟️ Скидочный промокод в корзину</option>
+                <option value="item">📦 Конфиг / Ресурспак (в профиль)</option>
+              </select>
+            </div>
+            <div class="admin-form-group" style="margin-bottom: 8px;">
+              <label class="text-xs">Краткое название (на секторе колеса)</label>
+              <input type="text" id="admin-roulette-title" class="form-input" placeholder="например: 100 ₽ или -25%">
+            </div>
+            <div class="admin-form-group" style="margin-bottom: 8px;">
+              <label class="text-xs">Полное название (при победе)</label>
+              <input type="text" id="admin-roulette-fulltitle" class="form-input" placeholder="например: 100 ₽ на баланс кошелька">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 6px;">
+            <!-- Amount (rubles) -->
+            <div class="admin-form-group" id="admin-roulette-group-amount" style="margin-bottom: 8px;">
+              <label class="text-xs">Сумма начисления (руб.)</label>
+              <input type="number" id="admin-roulette-amount" class="form-input" placeholder="100" min="1">
+            </div>
+            <!-- Promo code -->
+            <div class="admin-form-group" id="admin-roulette-group-code" style="display: none; margin-bottom: 8px;">
+              <label class="text-xs">Слово промокода (латиница)</label>
+              <input type="text" id="admin-roulette-code" class="form-input" placeholder="NAMELEES" style="text-transform: uppercase; font-weight: 700;">
+            </div>
+            <!-- Promo discount % -->
+            <div class="admin-form-group" id="admin-roulette-group-discount" style="display: none; margin-bottom: 8px;">
+              <label class="text-xs">Процент скидки по промокоду (1-99%)</label>
+              <input type="number" id="admin-roulette-discount" class="form-input" placeholder="20" min="1" max="99">
+            </div>
+            <!-- Rarity -->
+            <div class="admin-form-group" style="margin-bottom: 8px;">
+              <label class="text-xs">Редкость предмета</label>
+              <select id="admin-roulette-rarity" class="form-input" style="background:#11131e; color:#fff;">
+                <option value="common">⚪ Обычный (Common)</option>
+                <option value="uncommon">🟢 Необычный (Uncommon)</option>
+                <option value="rare">🟣 Редкий (Rare)</option>
+                <option value="epic">🔴 Эпический (Epic)</option>
+                <option value="legendary">🟡 Легендарный (Legendary)</option>
+              </select>
+            </div>
+            <!-- Icon emoji -->
+            <div class="admin-form-group" style="margin-bottom: 8px;">
+              <label class="text-xs">Иконка (эмодзи)</label>
+              <input type="text" id="admin-roulette-icon" class="form-input" placeholder="🪙" value="🎁">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 6px;">
+            <div class="admin-form-group" style="margin-bottom: 8px;">
+              <label class="text-xs">Вес шанса (чем больше вес, тем выше шанс)</label>
+              <input type="number" id="admin-roulette-weight" class="form-input" placeholder="20" min="1" max="500" value="20">
+            </div>
+            <div class="admin-form-group" style="margin-bottom: 8px;">
+              <label class="text-xs">Порядок на колесе (0..10)</label>
+              <input type="number" id="admin-roulette-order" class="form-input" placeholder="1" value="0">
+            </div>
+            <div class="admin-form-group" style="margin-bottom: 8px;">
+              <label class="text-xs">Цвет фона сектора (HEX)</label>
+              <input type="text" id="admin-roulette-color" class="form-input" placeholder="#172554" value="#172554">
+            </div>
+            <div class="admin-form-group" style="margin-bottom: 8px; display: flex; flex-direction: column; justify-content: center;">
+              <label class="text-xs">Статус сектора</label>
+              <label style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; cursor: pointer; color: #fff; margin-top: 6px;">
+                <input type="checkbox" id="admin-roulette-active" checked style="width: 18px; height: 18px; cursor: pointer;">
+                <span>Включен в рулетку (активен)</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="flex gap-2 mt-3">
+            <button type="button" class="action-btn primary-btn btn-sm" onclick="window.app.saveAdminRouletteItem()">💾 Сохранить предмет</button>
+            <button type="button" class="action-btn outline-btn btn-sm" onclick="window.app.closeRouletteItemEditor()">Отмена</button>
+          </div>
+        </div>
+
+        <div id="admin-roulette-table-container" style="max-height: 480px; overflow-y: auto; background: rgba(0,0,0,0.3); border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.08); padding: 12px;">
+          <!-- Loaded by JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notifications Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="flex items-center justify-center gap-3 mb-3">
+        <img src="assets/logo.jpg" alt="Logo" style="width: 28px; height: 28px; border-radius: 6px; object-fit: cover;">
+        <strong style="color: #fff; letter-spacing: 0.05em;">NAMELEES VISUAL</strong>
+      </div>
+      <p class="mb-2">© 2026 Namelees Visual. Все права защищены.</p>
+      <div>
+        <a href="https://t.me/NameleesVisual" target="_blank" rel="noopener noreferrer" style="color: #38bdf8; text-decoration: none; font-size: 0.88rem; font-weight: 600;">
+          ✈️ Официальный Telegram-канал: @NameleesVisual
+        </a>
+        <span onclick="window.spaceBg && window.spaceBg.toggle()" id="footer-bg-toggle" style="cursor: pointer; opacity: 0.55; margin-left: 14px; font-size: 0.8rem; color: #c084fc;" title="Сменить фон (Космос со звёздами / Классический)">🌌 Фон: Космос</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/products-data.js?v=20260919_17"></script>
+  <script src="js/lootbox.js?v=20260919_17"></script>
+  <script src="js/space-bg.js?v=20260919_17"></script>
+  <script src="js/app.js?v=20260919_17"></script>
+</body>
+</html>
