@@ -14,6 +14,8 @@ import hmac
 import secrets
 import time
 import random
+import socket
+import re
 import urllib.request
 import urllib.parse
 from urllib.parse import urlparse, parse_qs
@@ -21,6 +23,7 @@ from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 
 PORT = int(os.environ.get("PORT", 8080))
 DB_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "database.db")
+REGISTRY_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "users_registry.json")
 ADMIN_PASSWORD_DEFAULT = "admin123"
 SALT_OLD = "NAMELEES_VISUAL_SECURE_SALT_2026"
 SALT = "NAMELESS_VISUAL_SECURE_SALT_2026"
@@ -357,6 +360,13 @@ def init_db():
     except Exception as e:
         print("[DB] Error seeding creator:", e)
 
+    # Restore users from registry if DB was empty/fresh
+    try:
+        restore_users_from_registry(conn)
+        sync_users_registry(conn)
+    except Exception as e:
+        print("[REGISTRY] Error in init_db sync:", e)
+
     conn.commit()
     conn.close()
     print("[DB] SQLite database initialized at:", DB_FILE)
@@ -401,6 +411,151 @@ def set_admin_password(new_pass):
     cursor.execute("INSERT OR REPLACE INTO settings (key, value) VALUES ('admin_password', ?)", (new_pass,))
     conn.commit()
     conn.close()
+
+DISPOSABLE_EMAIL_DOMAINS = {
+    "mailinator.com", "10minutemail.com", "tempmail.com", "temp-mail.org",
+    "guerrillamail.com", "guerrillamail.net", "guerrillamail.biz", "guerrillamail.org",
+    "yopmail.com", "trashmail.com", "dropmail.me", "fakemailgenerator.com",
+    "throwawaymail.com", "getairmail.com", "mohmal.com", "crazymailing.com",
+    "dispostable.com", "inboxkitten.com", "sharklasers.com", "grr.la",
+    "guerrillamailblock.com", "pokemail.net", "spam4.me", "bccto.me",
+    "chacuo.net", "0-mail.com", "mytemp.email", "tempail.com", "temp-mail.ru",
+    "burnermail.io", "trashmail.net", "nada.ltd", "getnada.com", "inboxbear.com"
+}
+
+POPULAR_EMAIL_DOMAINS = {
+    "gmail.com", "mail.ru", "yandex.ru", "ya.ru", "bk.ru", "inbox.ru",
+    "list.ru", "rambler.ru", "outlook.com", "hotmail.com", "icloud.com",
+    "yahoo.com", "proton.me", "protonmail.com", "internet.ru", "live.com"
+}
+
+def validate_real_email(email: str):
+    if not email or "@" not in email:
+        return False, "Введите адрес электронной почты"
+    
+    email = email.strip().lower()
+    
+    # 1. Standard RFC regex check
+    email_regex = r'^[a-z0-9]([a-z0-9_.+-]*[a-z0-9])?@([a-z0-9]+([.-][a-z0-9]+)*\.[a-z]{2,})$'
+    if not re.match(email_regex, email) or len(email) > 100:
+        return False, "Некорректный формат почты. Укажите реальный email (например, name@gmail.com)"
+    
+    parts = email.split('@', 1)
+    if len(parts) != 2:
+        return False, "Некорректный адрес почты"
+    local_part, domain = parts[0], parts[1]
+    
+    # 2. Local-part sanity check
+    if len(local_part) < 3:
+        return False, "Имя почтового ящика слишком короткое (минимум 3 символа до знака @)"
+    if '..' in local_part or local_part.startswith('.') or local_part.endswith('.'):
+        return False, "Недопустимые точки в адресе почты"
+
+    # 3. Disposable/temp email domains check
+    if domain in DISPOSABLE_EMAIL_DOMAINS:
+        return False, "Регистрация с временных или одноразовых почт запрещена. Укажите настоящую почту."
+
+    # 4. Common typo suggestions
+    typo_map = {
+        "gmai.com": "gmail.com",
+        "gamil.com": "gmail.com",
+        "gmaill.com": "gmail.com",
+        "gmail.ru": "gmail.com",
+        "yandx.ru": "yandex.ru",
+        "yadex.ru": "yandex.ru",
+        "yandex.com": "yandex.ru",
+        "mil.ru": "mail.ru",
+        "mmail.ru": "mail.ru",
+        "mail.r": "mail.ru",
+        "outlok.com": "outlook.com"
+    }
+    if domain in typo_map:
+        return False, f"Возможно, опечатка в домене '{domain}'? Вы имели в виду @{typo_map[domain]}?"
+
+    # 5. Fast-path for popular domains (no DNS lookup needed)
+    if domain in POPULAR_EMAIL_DOMAINS:
+        return True, ""
+
+    # 6. Real DNS host/MX verification
+    try:
+        socket.gethostbyname(domain)
+        return True, ""
+    except socket.gaierror:
+        return False, f"Почтовый домен '@{domain}' не найден в интернете. Проверьте правильность написания почты (например, @gmail.com, @mail.ru, @yandex.ru)."
+    except Exception:
+        return True, ""
+
+def sync_users_registry(conn=None):
+    should_close = False
+    if conn is None:
+        conn = get_db_connection()
+        should_close = True
+    try:
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, email, password_hash, nickname, balance, vip_status, created_at FROM users")
+        rows = cursor.fetchall()
+        users_list = []
+        for r in rows:
+            u = dict(r)
+            cursor.execute("SELECT product_id, product_title, product_price, product_category, download_url, purchased_at FROM purchases WHERE user_id = ?", (u["id"],))
+            u["purchases"] = [dict(p) for p in cursor.fetchall()]
+            users_list.append(u)
+        with open(REGISTRY_FILE, "w", encoding="utf-8") as f:
+            json.dump({"updated_at": time.time(), "users": users_list}, f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        print("[REGISTRY] Error saving users registry:", e)
+    finally:
+        if should_close:
+            conn.close()
+
+def restore_users_from_registry(conn):
+    if not os.path.exists(REGISTRY_FILE):
+        sync_users_registry(conn)
+        return
+    try:
+        with open(REGISTRY_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        users = data.get("users", [])
+        cursor = conn.cursor()
+        restored = 0
+        for u in users:
+            email = u.get("email", "").strip().lower()
+            if not email:
+                continue
+            cursor.execute("SELECT id FROM users WHERE email = ?", (email,))
+            if not cursor.fetchone():
+                cursor.execute("""
+                    INSERT INTO users (email, password_hash, nickname, balance, vip_status, created_at, token)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                """, (
+                    email,
+                    u.get("password_hash", ""),
+                    u.get("nickname", email.split('@')[0]),
+                    float(u.get("balance", 50.0)),
+                    u.get("vip_status", "Игрок"),
+                    u.get("created_at", ""),
+                    make_user_token(email, u.get("password_hash", ""))
+                ))
+                uid = cursor.lastrowid
+                for p in u.get("purchases", []):
+                    cursor.execute("""
+                        INSERT INTO purchases (user_id, product_id, product_title, product_price, product_category, download_url, purchased_at)
+                        VALUES (?, ?, ?, ?, ?, ?, ?)
+                    """, (
+                        uid,
+                        str(p.get("product_id", p.get("id", ""))),
+                        str(p.get("product_title", p.get("title", ""))),
+                        float(p.get("product_price", p.get("price", 0))),
+                        str(p.get("product_category", p.get("category", ""))),
+                        str(p.get("download_url", "")),
+                        p.get("purchased_at", "")
+                    ))
+                restored += 1
+        if restored > 0:
+            conn.commit()
+            print(f"[REGISTRY] Restored {restored} user accounts from registry backup!")
+    except Exception as e:
+        print("[REGISTRY] Error restoring users from registry:", e)
 
 def hash_password(password: str, salt: str = None) -> str:
     s = salt if salt else SALT
@@ -586,8 +741,8 @@ class NamelessServerHandler(SimpleHTTPRequestHandler):
             })
 
         elif path == "/api/admin/users":
-            if not self.is_valid_admin():
-                return self.send_json(403, {"success": False, "message": "Доступ запрещен. Требуется пароль администратора."})
+            if not self.is_admin_or_creator():
+                return self.send_json(403, {"success": False, "message": "Доступ запрещен. Требуются права создателя или пароль администратора."})
             
             conn = get_db_connection()
             cursor = conn.cursor()
@@ -713,7 +868,7 @@ class NamelessServerHandler(SimpleHTTPRequestHandler):
 
         # --- Admin Change Password ---
         elif path == "/api/admin/change-password":
-            if not self.is_valid_admin():
+            if not self.is_admin_or_creator():
                 return self.send_json(403, {"success": False, "message": "Доступ запрещен"})
             new_pass = body.get("new_password", "").strip()
             if not new_pass or len(new_pass) < 3:
@@ -726,8 +881,8 @@ class NamelessServerHandler(SimpleHTTPRequestHandler):
 
         # --- Admin Set User Role / Status ---
         elif path == "/api/admin/set-status":
-            if not self.is_valid_admin():
-                return self.send_json(403, {"success": False, "message": "Доступ запрещен. Требуется пароль администратора."})
+            if not self.is_admin_or_creator():
+                return self.send_json(403, {"success": False, "message": "Доступ запрещен. Требуются права создателя или пароль администратора."})
             user_id = body.get("user_id")
             status = body.get("status", "").strip()
             if not user_id or not status:
@@ -737,6 +892,7 @@ class NamelessServerHandler(SimpleHTTPRequestHandler):
             cursor = conn.cursor()
             cursor.execute("UPDATE users SET vip_status = ? WHERE id = ?", (status, user_id))
             conn.commit()
+            sync_users_registry(conn)
             conn.close()
             return self.send_json(200, {
                 "success": True,
@@ -776,8 +932,9 @@ class NamelessServerHandler(SimpleHTTPRequestHandler):
             password = body.get("password", "").strip()
             nickname = body.get("nickname", "").strip() or email.split("@")[0]
 
-            if not email or "@" not in email:
-                return self.send_json(400, {"success": False, "message": "Введите корректный email адрес"})
+            is_valid_email, email_err = validate_real_email(email)
+            if not is_valid_email:
+                return self.send_json(400, {"success": False, "message": email_err})
             if not password or len(password) < 4:
                 return self.send_json(400, {"success": False, "message": "Пароль должен содержать минимум 4 символа"})
 
@@ -798,6 +955,7 @@ class NamelessServerHandler(SimpleHTTPRequestHandler):
                         """, (pwd_hash, nickname or 'Dane4ika3', token, existing["id"]))
                         cursor.execute("INSERT OR REPLACE INTO user_tokens (user_id, token) VALUES (?, ?)", (existing["id"], token))
                         conn.commit()
+                        sync_users_registry(conn)
                         cursor.execute("SELECT * FROM users WHERE id = ?", (existing["id"],))
                         updated_user = cursor.fetchone()
                         purchases = get_user_purchases(existing["id"])
@@ -830,6 +988,7 @@ class NamelessServerHandler(SimpleHTTPRequestHandler):
                 """, (user_id, initial_balance))
 
                 conn.commit()
+                sync_users_registry(conn)
 
                 cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))
                 new_user = cursor.fetchone()

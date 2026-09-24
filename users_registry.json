@@ -1,0 +1,63 @@
+{
+  "updated_at": 1790253696.4739063,
+  "users": [
+    {
+      "id": 1,
+      "email": "testuser@example.com",
+      "password_hash": "ee83767a723c0bbff21eaeaa1079095d52574b909a5ac82a4dbeac9d69deb340",
+      "nickname": "Tester",
+      "balance": 150.0,
+      "vip_status": "Игрок",
+      "created_at": "2026-09-18 16:07:18",
+      "purchases": []
+    },
+    {
+      "id": 2,
+      "email": "dmitriy_pvp@mail.ru",
+      "password_hash": "a582b47ba6a58e255ed79d8c9b662f74ecf7c6883c36ffabcafc1b22c8b2b861",
+      "nickname": "DmitriyPvP",
+      "balance": 170.0,
+      "vip_status": "VIP Игрок",
+      "created_at": "2026-09-18 16:10:08",
+      "purchases": [
+        {
+          "product_id": "priv_cfg_80",
+          "product_title": "Nameless Legit Config 80",
+          "product_price": 80.0,
+          "product_category": "config",
+          "download_url": "https://t.me/NamelessVisual",
+          "purchased_at": "2026-09-18 16:10:13"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "email": "dane4ika33@gmail.com",
+      "password_hash": "67e11a8eb601eb4aa1acfa316c23e0b724424e8653adaf60e4a56bfd5d17f47a",
+      "nickname": "Dane4ika3",
+      "balance": 701.0,
+      "vip_status": "СОЗДАТЕЛЬ",
+      "created_at": "2026-09-18 16:53:21",
+      "purchases": [
+        {
+          "product_id": "cfg-pulse-pvp",
+          "product_title": "Pulse-Style PvP Config Pack",
+          "product_price": 299.0,
+          "product_category": "config",
+          "download_url": "https://t.me/NamelessVisual",
+          "purchased_at": "2026-09-19 13:20:49"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "email": "a88527710@gmail.com",
+      "password_hash": "3ccd16b592c6e72a5343139a34517eb929093810af4bc6c056ab2e5ca9acea50",
+      "nickname": "frostyl",
+      "balance": 50.0,
+      "vip_status": "СОЗДАТЕЛЬ",
+      "created_at": "2026-09-18 17:43:55",
+      "purchases": []
+    }
+  ]
+}

@@ -406,6 +406,15 @@
             <span class="action-card-arrow" style="color: #f43f5e;">➔</span>
           </button>
 
+          <button type="button" class="profile-action-card users-db-card" id="page-prof-users-btn" onclick="window.app.openAdminUsersModal()" style="display: none; border-color: rgba(168, 85, 247, 0.4); background: linear-gradient(135deg, rgba(168, 85, 247, 0.12), rgba(168, 85, 247, 0.03));">
+            <span class="action-card-icon">👥</span>
+            <div class="action-card-text">
+              <strong style="color: #c084fc;">База игроков (SQLite)</strong>
+              <span>Все зарегистрированные и их балансы</span>
+            </div>
+            <span class="action-card-arrow" style="color: #c084fc;">➔</span>
+          </button>
+
           <a href="#daily-bonus-section" class="profile-action-card bonus-action-card" onclick="const s = document.getElementById('daily-bonus-section'); if(s) { s.scrollIntoView({behavior:'smooth', block:'center'}); }">
             <span class="action-card-icon">🎡</span>
             <div class="action-card-text">
