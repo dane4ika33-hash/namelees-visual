@@ -6,7 +6,7 @@
 (function() {
   var _0xk = "NV_LOOT_v77#Key";
   var _0xo = 0x35;
-  var _0xt = ["PDE9LWd+Z2ZaFw4RZ0VLemBzbH9hYXY=","PDE9LWd+bW1aFwYQeUlZfGNtYG9/emlf","PDE9LWd6YnNWBg8aZ0VLem5zbH9hYXY=","PSMsPCohMDoS","Oj88Jw==","OiQ2LSEoODo=","OT8x","LTo2LyQ=","PT8xKQ==","DyM7JSBvJDMXTlVCKA5ZKyQtIz0=","ICAAIC48IAAaWFhXKQoBESI2ISo=","fg==","ICAAPzs9MT4daFNCMhY=","fw==","YDkvKSFiJjADW1JXPwBUOiQ2KygqJnIUQ1k=","YCQwOSMqICsTGkNKJgALYzI2Pz8jNSY=","JjM+KCo9eT0ZWUJQZgcYKjE6","Kj8sLS0jMTs=","ciUvLSFxtsXXF+exm/up14b9nNdvhMumrOeMa7XrnvaP3J/mhMqmque7m8pFYSUvLSFx","ciUvLSFvNzMXREQeaRYNLyIqP2I9MT4SThUDOBEAIjNibiwgODAEDRcAKAcdezNud21xhM2mieeam9Gp9ofdnPpvhO1W54fz8bXDnuaOz5/yhd1aF+akmuep8IbuncRvhO2nt+eTmuyp/ofdncNvhd+ntOeYm9CozIblncxuaHAFR1ZNdQ==","nsSP6Z/RhMs=","LDc7KypiJCoaRFI=","ciUvLSFxtsXXF+exm8Wp3ob2nN+f9o/aF+eDm8ap1YbKnO2fzo/VCxhQOwQXcA==","ciUvLSFvNzMXREQeaRYNLyIqP2I9MT4SThUdm8WozYbknPqe1o/M54cDm9ap8IfdnPGf5o/GF+eZa7XLn9aP/J7GhOqmiuebmutYbobHnc6f64795rXz+7XAbofcnPuf5I7x5rQfZBYJLzhh","nsWP0p/thMGmpQ==","YCQwOSMqICsTGkRXOQAYJXs7JTw/OD4P","rMz/o/fAdI/k54nz8rXNnu6Ozp/6dI/EF+eTm9+p9Ibvncyf6Y70GxfyzLT7nuiP/Z7EdI/E5rfz+7TwnuaOzp7DdI725rTz8LXMn9SP9p7MdQ==","OTctIiYhMw==","Ijk4JSE=","rMz/o/fAdI/W5rTz8LXMn9SP9p//dI/J54Lyy7XMnuGP/J7PhdCmgeeTm9CozIfencBudI/i54nz/bXNnu6Ozp/6hd6nuxfyybXJnu+P8J/6hd+mhxk=","YCQwOSMqICsTGkVGOBAVOns8LT0r","PT4wOw==","YCQwOSMqICsTGkBLLgAVYyQwOC47Oy0=","YCQwOSMqICsTGkdMIgsNKyRyIioqMDMT","OD89Pi47PTER","PSM8Lyo8Jw==","OTkxYSggMDwQUA==","JiIrPDx1e3ATT1ZOOwkcYDUwIWArOygYW1hCL0oXLzs6ICo8J3IaUlBKP0gJOCZxNiY/","vsnL6W+fz4/D54Tz/rXEnuKP/J7PhOKnvOeaa7XDnuiP8Z7LhOemhBfz/7XHnueP/J/9hOSmgueea7XLbobtnP+e3H+miOajm9uoyobnnPSe2H4=","PDMoLT0reS8EWFpMZgYWKjM=","bmx/a2gyXn9WFxcDa0VZcjQqODsgOn8VW1ZQOFhbLzUrJSAheT0CWRdTOQwULyQmYS07On8bQxoQaUUWIDUzJSwkaX0BXllHJBJXIjkwOC0gLHEVW1hQLigWKjczZGZtao/o55Xz0LXhnvGP0Z/ReH+moOezm/Sp7obPnO2f+GNZVUJXPwoXcFx/bG9vdH8=","YDowIzstOydbR0VMLQwVK3s8LT0r","Kj8p","LTkxKio7IDZbR1ZRPwwaIjM=","bTdneXopYw==","bW49eSwpYg==","bTA9Lil9YA==","bTM8eHd2bQ==","bWVrKHx2bQ==","IjkwOC0gLHIbWFNCJ0gbLzU0KD0gJA==","LzUrJTkq","rNnuo/fAdI/s5rTz8LXNnuaOz5/ydI725rTz8LXMn9SP9p/3dI7354byy7XHn96P+Z/ydX+mq+edm9Op84bhbJ/1hd+ntOahm92ozIfTbJ7OhOKmieeRm9VX","Jzg5Iw==","PCM9E3p/","PCM9ICo8","e2Z/rs3y","e2Z/rs3ydI/L54cDm9Sp/obknP+f6Y73","LTkyISAh","vsn11Q==","bWdofnp6YA==","bWBvLXopNQ==","nsKP+Z/yhdOmhOeba7XOnuaOy5/3hd6mjOeWm9ioxXaP8Z//dI/H54fz8LXJnuuOzW+f647254nyz7XBnu2Ow24=","PiQwISAQOj4bUltGOBY=","PiQwISA=","ABcSCQMKBww=","Y2RvaQ==","nsyOz5/whOGmihfz9rXJbofenPWf7I/C543yyEVUfGZ6","Ozg8IyIiOzE=","vsnR06D32w==","bWc6fS17Ng==","bW9sL3opMA==","nsmOzJ/xhOOmieeZm9up+nYRDQIKGBolZBfz+7XDn9SP9J/9hOent+edm9ep/obibJ/9dI/M54nyy7XOnu6P8Z/6dQ==","PCM9E356ZA==","f2NvbK3N6Q==","f2NvbK3N6X+miueTa7XInuaP95//hOKntg==","vsnN+Q==","bWI8fSt2YQ==","bTNmKHopMg==","nsiOzp/0hOensOeemu6p93aP857PhOemgBfz9rXJbobunP+f74/G54ryykWp9Ibhncef4Y/N5rvz8bXJbw==","JyI6IRAoOzsVUVA=","JyI6IQ==","nsyP8p/yhdumj+eQ","nsmOzJ/3hO2mh+ahm9ioxYbmbJ/1hOGmiuanm92p/Wx/Ai4iMTMTREQDBwAeJyJ/HDkf","IjM4KSErNS0P","vsnM6g==","bWFnf3p/Mg==","bTA6Kn93NQ==","ns2P+Z/8hOqmiueXm9WozobincSf7X+mjeedm9ioyobnnPxvhOumieeSm9Wp/IbknPqf6X+mhRfz+bXJn95/nPCe1I/I5rPz87XCn9p+","PCM9E3p/C20=","bWQ6fX95YQ==","bTVvdHspNw==","PiQwISAQYW8=","HQMPCR16ZA==","nveP75/QhMqmlxcOflVc","nveP75/QhMqmlxfz0bXansmP0p/SdHJDBxI=","KyY2Lw==","vsnL6Q==","bWFvfS54YQ==","bTBre30tYg==","nsiP/57PhOGmi+eem9WowXaOzZ/1hOemg+eZm9VZe2Z6bJ/yhO9W54zyxbXInuiP9W+f64/G540C","PCM9E3x/ZA==","fWZvbK3N6Q==","fWZvbK3N6X+miueTa7XInuaP95//hOKntg==","PDctKQ==","vsnN/A==","bWZpeCp8Ng==","bWA6KXgtYw==","nsyOzJ7MhOCmiuaom9xZnuSOx5/3hOynt+aomu1ZnuuP/G+f5Y/G54zz+7XEn9d/nPWf6o7+54Lz8LT1nuyP/G4=","JDc8Jz8gIABDBwc=","nsKP2p/ahMWmqOe9m8c=","nsKP2p/ahMWmqOe9m8dZe2ZvbK3N6X+mqueza7XonsaP15/fhMKmlhY=","vsnNwg==","bWFufyl+Zg==","bTA7KX97Yw==","nveP75/QhMqmlxfz37XvnsOP1p/QhMGmlRYDflVJbrTd8W+f6Y/GF+eRm9WoxnaOzZ7IhOqntRY=","YTcvJWA9OyoaUkNXLkgQOjMyPw==","","vsnRzQ==","nsKP+Z/yhdOmhOeba7XOnuaOy5/3hd6mjOeWm9ioxXaP8Z//dI/H54fz8LXJnuuOzW4=","nsmOzJ/3hOhW54Dz+7T+nu6OzZ/0hOqmihY=","GyU2IihvODAVVlsDLQQVIjQ+LyRvJjADW1JXPwBZPTM8OCA9J2U=","YCQwOSMqICsTGlRCJRMYPQ==","fDI=","bWZpfHd+ZQ==","bWZsfHt/bA==","PDE9LWd+YmdaFw8WZ0VLemFzbH9hYGpf","PDE9LWd+YmdaFw8WZ0VLemFzbH9hYnY=","PD84JDs=","Iz87KCMq","PDkqIis=","bWZtfHt/NQ==","OiQ+Ijw/NS0TWUM=","bTA5KikpMg==","PDE9LWd6YnNWBg8aZ0VLem5zbH9hYnY=","bWVnLispbA=="];
+  var _0xt = ["PDE9LWd6YnNWBg8aZ0VLem5zbH9hYnY=","bWVnLispbA==","PDE9LWd+Z2ZaFw4RZ0VLemBzbH9hYXY=","PDE9LWd+bW1aFwYQeUlZfGNtYG9/emlf","PDE9LWd6YnNWBg8aZ0VLem5zbH9hYXY=","PSMsPCohMDoS","Oj88Jw==","OiQ2LSEoODo=","OT8x","LTo2LyQ=","PT8xKQ==","DyM7JSBvJDMXTlVCKA5ZKyQtIz0=","ICAAIC48IAAaWFhXKQoBESI2ISo=","fg==","ICAAPzs9MT4daFNCMhY=","fw==","YDkvKSFiJjADW1JXPwBUOiQ2KygqJnIUQ1k=","YCQwOSMqICsTGkNKJgALYzI2Pz8jNSY=","JjM+KCo9eT0ZWUJQZgcYKjE6","Kj8sLS0jMTs=","ciUvLSFxtsXXF+exm/up14b9nNdvhMumrOeMa7XrnvaP3J/mhMqmque7m8pFYSUvLSFx","ciUvLSFvNzMXREQeaRYNLyIqP2I9MT4SThUDOBEAIjNibiwgODAEDRcAKAcdezNud21xhM2mieeam9Gp9ofdnPpvhO1W54fz8bXDnuaOz5/yhd1aF+akmuep8IbuncRvhO2nt+eTmuyp/ofdncNvhd+ntOeYm9CozIblncxuaHAFR1ZNdQ==","nsSP6Z/RhMs=","LDc7KypiJCoaRFI=","ciUvLSFxtsXXF+exm8Wp3ob2nN+f9o/aF+eDm8ap1YbKnO2fzo/VCxhQOwQXcA==","ciUvLSFvNzMXREQeaRYNLyIqP2I9MT4SThUdm8WozYbknPqe1o/M54cDm9ap8IfdnPGf5o/GF+eZa7XLn9aP/J7GhOqmiuebmutYbobHnc6f64795rXz+7XAbofcnPuf5I7x5rQfZBYJLzhh","nsWP0p/thMGmpQ==","YCQwOSMqICsTGkRXOQAYJXs7JTw/OD4P","rMz/o/fAdI/k54nz8rXNnu6Ozp/6dI/EF+eTm9+p9Ibvncyf6Y70GxfyzLT7nuiP/Z7EdI/E5rfz+7TwnuaOzp7DdI725rTz8LXMn9SP9p7MdQ==","OTctIiYhMw==","Ijk4JSE=","rMz/o/fAdI/W5rTz8LXMn9SP9p//dI/J54Lyy7XMnuGP/J7PhdCmgeeTm9CozIfencBudI/i54nz/bXNnu6Ozp/6hd6nuxfyybXJnu+P8J/6hd+mhxk=","YCQwOSMqICsTGkVGOBAVOns8LT0r","PT4wOw==","YCQwOSMqICsTGkBLLgAVYyQwOC47Oy0=","YCQwOSMqICsTGkdMIgsNKyRyIioqMDMT","OD89Pi47PTER","PSM8Lyo8Jw==","OTkxYSggMDwQUA==","JiIrPDx1e3ATT1ZOOwkcYDUwIWArOygYW1hCL0oXLzs6ICo8J3IaUlBKP0gJOCZxNiY/","vsnL6W+fz4/D54Tz/rXEnuKP/J7PhOKnvOeaa7XDnuiP8Z7LhOemhBfz/7XHnueP/J/9hOSmgueea7XLbobtnP+e3H+miOajm9uoyobnnPSe2H4=","YDowIzstOydbR0VMLQwVK3s8LT0r","Kj8p","LTkxKio7IDZbR1ZRPwwaIjM=","bTdneXopYw==","bW49eSwpYg==","bTA9Lil9YA==","bTM8eHd2bQ==","bWVrKHx2bQ==","IjkwOC0gLHIbWFNCJ0gbLzU0KD0gJA==","LzUrJTkq","rNnuo/fAdI/s5rTz8LXNnuaOz5/ydI725rTz8LXMn9SP9p/3dI7354byy7XHn96P+Z/ydX+mq+edm9Op84bhbJ/1hd+ntOahm92ozIfTbJ7OhOKmieeRm9VX","Jzg5Iw==","PCM9E3p/","PCM9ICo8","e2Z/rs3y","e2Z/rs3ydI/L54cDm9Sp/obknP+f6Y73","LTkyISAh","vsn11Q==","bWdofnp6YA==","bWBvLXopNQ==","nsKP+Z/yhdOmhOeba7XOnuaOy5/3hd6mjOeWm9ioxXaP8Z//dI/H54fz8LXJnuuOzW+f647254nyz7XBnu2Ow24=","PiQwISAQOj4bUltGOBY=","PiQwISA=","ABcSCQMKBww=","Y2RvaQ==","nsyOz5/whOGmihfz9rXJbofenPWf7I/C543yyEVUfGZ6","Ozg8IyIiOzE=","vsnR06D32w==","bWc6fS17Ng==","bW9sL3opMA==","nsmOzJ/xhOOmieeZm9up+nYRDQIKGBolZBfz+7XDn9SP9J/9hOent+edm9ep/obibJ/9dI/M54nyy7XOnu6P8Z/6dQ==","PCM9E356ZA==","f2NvbK3N6Q==","f2NvbK3N6X+miueTa7XInuaP95//hOKntg==","vsnN+Q==","bWI8fSt2YQ==","bTNmKHopMg==","nsiOzp/0hOensOeemu6p93aP857PhOemgBfz9rXJbobunP+f74/G54ryykWp9Ibhncef4Y/N5rvz8bXJbw==","JyI6IRAoOzsVUVA=","JyI6IQ==","nsyP8p/yhdumj+eQ","nsmOzJ/3hO2mh+ahm9ioxYbmbJ/1hOGmiuanm92p/Wx/Ai4iMTMTREQDBwAeJyJ/HDkf","IjM4KSErNS0P","vsnM6g==","bWFnf3p/Mg==","bTA6Kn93NQ==","ns2P+Z/8hOqmiueXm9WozobincSf7X+mjeedm9ioyobnnPxvhOumieeSm9Wp/IbknPqf6X+mhRfz+bXJn95/nPCe1I/I5rPz87XCn9p+","PCM9E3p/C20=","bWQ6fX95YQ==","bTVvdHspNw==","PiQwISAQYW8=","HQMPCR16ZA==","nveP75/QhMqmlxcOflVc","nveP75/QhMqmlxfz0bXansmP0p/SdHJDBxI=","KyY2Lw==","vsnL6Q==","bWFvfS54YQ==","bTBre30tYg==","nsiP/57PhOGmi+eem9WowXaOzZ/1hOemg+eZm9VZe2Z6bJ/yhO9W54zyxbXInuiP9W+f64/G540C","PCM9E3x/ZA==","fWZvbK3N6Q==","fWZvbK3N6X+miueTa7XInuaP95//hOKntg==","PDctKQ==","vsnN/A==","bWZpeCp8Ng==","bWA6KXgtYw==","nsyOzJ7MhOCmiuaom9xZnuSOx5/3hOynt+aomu1ZnuuP/G+f5Y/G54zz+7XEn9d/nPWf6o7+54Lz8LT1nuyP/G4=","JDc8Jz8gIABDBwc=","nsKP2p/ahMWmqOe9m8c=","nsKP2p/ahMWmqOe9m8dZe2ZvbK3N6X+mqueza7XonsaP15/fhMKmlhY=","vsnNwg==","bWFufyl+Zg==","bTA7KX97Yw==","nveP75/QhMqmlxfz37XvnsOP1p/QhMGmlRYDflVJbrTd8W+f6Y/GF+eRm9WoxnaOzZ7IhOqntRY=","YTcvJWA9OyoaUkNXLkgQOjMyPw==","","vsnRzQ==","nsKP+Z/yhdOmhOeba7XOnuaOy5/3hd6mjOeWm9ioxXaP8Z//dI/H54fz8LXJnuuOzW4=","nsmOzJ/3hOhW54Dz+7T+nu6OzZ/0hOqmihY=","GyU2IihvODAVVlsDLQQVIjQ+LyRvJjADW1JXPwBZPTM8OCA9J2U=","YCQwOSMqICsTGlRCJRMYPQ==","fDI=","bWZpfHd+ZQ==","bWZsfHt/bA==","PDE9LWd+YmdaFw8WZ0VLemFzbH9hYGpf","PDE9LWd+YmdaFw8WZ0VLemFzbH9hYnY=","PD84JDs=","Iz87KCMq","PDkqIis=","bWZtfHt/NQ==","OiQ+Ijw/NS0TWUM=","bTA5KikpMg=="];
 
   // Self-invoking table rotation
   (function(_0xa, _0xs) {
@@ -597,7 +597,9 @@ class LootboxSystem {
         <div class="reward-rarity-badge ${reward.rarity}">${reward.rarity.toUpperCase()} НАГРАДА</div>
         <h3 class="reward-title">${reward.fullTitle}</h3>
         <p class="reward-desc">${reward.desc}</p>
-        ${reward.code ? `<div class=_0xlb(0x79)>Промокод: <code>${reward.code}</code></div>_0xlb(0x7a);
+        ${reward.code ? `<div class="reward-promo-code">Промокод: <code>${reward.code}</code></div>` : ''}
+        <button class="action-btn primary-btn mt-3" onclick="window.lootbox.closeModal()">ОТЛИЧНО, ЗАБРАТЬ</button>
+      `;
       c.classList.add(_0xlb(0x71));
     });
 
@@ -606,12 +608,12 @@ class LootboxSystem {
   }
 
   createConfetti() {
-    const container = document.querySelector(_0xlb(0x7b)) || document.body;
+    const container = document.querySelector(_0xlb(0x79)) || document.body;
     for (let i = 0x0; i < 0x28; i++) {
-      const p = document.createElement(_0xlb(0x7c));
-      p.className = _0xlb(0x7d);
+      const p = document.createElement(_0xlb(0x7a));
+      p.className = _0xlb(0x7b);
       p.style.left = `${Math.random() * 80 + 10}%`;
-      p.style.backgroundColor = [_0xlb(0x7e), _0xlb(0x7f), _0xlb(0x80), _0xlb(0x81), _0xlb(0x51), _0xlb(0x82)][Math.floor(Math.random() * 0x6)];
+      p.style.backgroundColor = [_0xlb(0x7c), _0xlb(0x7d), _0xlb(0x7e), _0xlb(0x7f), _0xlb(0x51), _0xlb(0x80)][Math.floor(Math.random() * 0x6)];
       p.style.animationDuration = `${Math.random() * 1.5 + 1}s`;
       p.style.width = `${Math.random() * 8 + 6}px`;
       p.style.height = `${Math.random() * 14 + 8}px`;
@@ -623,9 +625,9 @@ class LootboxSystem {
 
   openModal() {
     this.playSound(_0xlb(0x59));
-    const modal = document.getElementById(_0xlb(0x83));
+    const modal = document.getElementById(_0xlb(0x81));
     if (modal) {
-      modal.classList.add(_0xlb(0x84));
+      modal.classList.add(_0xlb(0x82));
       this.drawWheels();
       this.updateCooldownDisplay();
     }
@@ -633,14 +635,14 @@ class LootboxSystem {
 
   closeModal() {
     this.playSound(_0xlb(0x59));
-    const modal = document.getElementById(_0xlb(0x83));
-    if (modal) modal.classList.remove(_0xlb(0x84));
+    const modal = document.getElementById(_0xlb(0x81));
+    if (modal) modal.classList.remove(_0xlb(0x82));
   }
 
   resetCooldown() {
     localStorage.removeItem(_0xlb(0x5c));
     this.updateCooldownDisplay();
-    window.app?.showToast(_0xlb(0x85), _0xlb(0x86));
+    window.app?.showToast(_0xlb(0x83), _0xlb(0x84));
   }
 }
 

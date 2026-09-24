@@ -1,5 +1,5 @@
 {
-  "updated_at": 1790253696.4739063,
+  "updated_at": 1790255273.788404,
   "users": [
     {
       "id": 1,
@@ -33,7 +33,7 @@
     {
       "id": 3,
       "email": "dane4ika33@gmail.com",
-      "password_hash": "67e11a8eb601eb4aa1acfa316c23e0b724424e8653adaf60e4a56bfd5d17f47a",
+      "password_hash": "71fd394de7c68575014909a08ef57607d3ac571955f7686a2bba9ce935f07e07",
       "nickname": "Dane4ika3",
       "balance": 701.0,
       "vip_status": "СОЗДАТЕЛЬ",
@@ -57,6 +57,16 @@
       "balance": 50.0,
       "vip_status": "СОЗДАТЕЛЬ",
       "created_at": "2026-09-18 17:43:55",
+      "purchases": []
+    },
+    {
+      "id": 8,
+      "email": "testlogin@gmail.com",
+      "password_hash": "259889679a0ab5cca34aed5c06cedd58317124de0d1f604ed6b9e349a3e04273",
+      "nickname": "TestLogin",
+      "balance": 50.0,
+      "vip_status": "Игрок",
+      "created_at": "2026-09-24 12:53:25",
       "purchases": []
     }
   ]
