@@ -1,4 +1,4 @@
-// Daily Cyber Wheel of Fortune (Кибер-Рулетка Наград) for Namelees Visual
+// Daily Cyber Wheel of Fortune (Кибер-Рулетка Наград) for Nameless Visual
 class LootboxSystem {
   constructor() {
     this.COOLDOWN_MS = 24 * 60 * 60 * 1000; // 24 hours
@@ -9,7 +9,7 @@ class LootboxSystem {
     // Default 8 sectors (synchronized with SQLite database)
     this.sectors = [
       { id: "rub_50", type: "rubles", amount: 50, title: "50 ₽", fullTitle: "50 ₽ на баланс", rarity: "common", icon: "🪙", color: "#172554", textColor: "#60a5fa", desc: "Деньги зачислены на баланс профиля!", weight: 35 },
-      { id: "promo_namelees", type: "promo", code: "NAMELEES", discount: 20, title: "-20%", fullTitle: "Купон на скидку -20%", rarity: "uncommon", icon: "🎟️", color: "#1e1b4b", textColor: "#93c5fd", desc: "Промокод NAMELEES активирован в корзине!", weight: 15 },
+      { id: "promo_nameless", type: "promo", code: "NAMELESS", discount: 20, title: "-20%", fullTitle: "Купон на скидку -20%", rarity: "uncommon", icon: "🎟️", color: "#1e1b4b", textColor: "#93c5fd", desc: "Промокод NAMELESS активирован в корзине!", weight: 15 },
       { id: "rub_150", type: "rubles", amount: 150, title: "150 ₽", fullTitle: "150 ₽ на баланс", rarity: "uncommon", icon: "💵", color: "#4c1d95", textColor: "#e9d5ff", desc: "Отличный приз на баланс кошелька!", weight: 20 },
       { id: "item_godcfg", type: "item", title: "Конфиг", fullTitle: "Приватный конфиг: Nameless Legit PvP", rarity: "legendary", icon: "📦", color: "#78350f", textColor: "#fef08a", desc: "Легендарный конфиг добавлен в ваш профиль!", weight: 5 },
       { id: "rub_50_2", type: "rubles", amount: 50, title: "50 ₽", fullTitle: "50 ₽ на баланс", rarity: "common", icon: "🪙", color: "#2e1065", textColor: "#c084fc", desc: "Деньги зачислены на баланс профиля!", weight: 15 },

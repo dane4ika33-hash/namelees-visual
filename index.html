@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Namelees Visual — Магазин ресурспаков, конфигов и визуалов для Minecraft</title>
-  <meta name="description" content="Официальный магазин Namelees Visual: приватные ресурспаки, оптимизированные PvP конфиги, ежедневный лутбокс и визуалы нового поколения.">
-  <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
+  <title>Nameless Visual — Магазин ресурспаков, конфигов и визуалов для Minecraft</title>
+  <meta name="description" content="Официальный магазин Nameless Visual: приватные ресурспаки, оптимизированные PvP конфиги, ежедневный лутбокс и визуалы нового поколения.">
+  <link rel="icon" type="image/jpeg" href="assets/logo.jpg?v=20260924_01">
   
   <!-- Google Fonts: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="css/style.css?v=20260919_17">
+  <link rel="stylesheet" href="css/style.css?v=20260924_01">
   <script>
     function switchAuthTab(tab) {
       var regBtn = document.getElementById('auth-tab-btn-register');
@@ -113,9 +113,9 @@
   <header class="site-header">
     <div class="container header-inner">
       <a href="#" class="brand-logo-link">
-        <img src="assets/logo.jpg" alt="Namelees Visual Logo" class="header-logo-img">
+        <img src="assets/logo.jpg?v=20260924_01" alt="Nameless Visual Logo" class="header-logo-img">
         <div class="brand-title-wrap">
-          <span class="brand-name">Namelees Visual</span>
+          <span class="brand-name">Nameless Visual</span>
           <span class="brand-subtitle">PvP & Visual Mod Store</span>
         </div>
       </a>
@@ -144,7 +144,7 @@
         </button>
 
         <!-- Telegram Channel Link -->
-        <a href="https://t.me/NameleesVisual" target="_blank" rel="noopener noreferrer" class="telegram-header-btn" title="Наш Telegram-канал">
+        <a href="https://t.me/NamelessVisual" target="_blank" rel="noopener noreferrer" class="telegram-header-btn" title="Наш Telegram-канал">
           <span>✈️</span>
           <span>Telegram</span>
         </a>
@@ -172,7 +172,7 @@
         <span>⚡ НОВЫЙ УРОВЕНЬ ВИЗУАЛА • MINECRAFT & PVP</span>
       </div>
       <h1 class="hero-title">
-        <span class="text-gradient">NAMELEES VISUAL</span>
+        <span class="text-gradient">NAMELESS VISUAL</span>
       </h1>
       <p class="hero-desc">
         Nameless Visual – Лучший бесплатный вспомогательно визуально утилитарный мод. Мы стараемся сделать как можно красивый, полезный, оптимизированный мод для комфорта вашей игры.
@@ -182,7 +182,7 @@
         <a href="#shop" class="action-btn primary-btn">
           🛍️ Перейти к товарам
         </a>
-        <a href="https://t.me/NameleesVisual" target="_blank" rel="noopener noreferrer" class="action-btn telegram-btn">
+        <a href="https://t.me/NamelessVisual" target="_blank" rel="noopener noreferrer" class="action-btn telegram-btn">
           ✈️ Telegram-канал
         </a>
         <a href="profile.html" class="action-btn gold-btn">
@@ -231,7 +231,7 @@
       <div class="section-header">
         <div>
           <h2 class="section-title">Магазин товаров</h2>
-          <p class="section-subtitle">Выбирайте готовые ресурспаки и конфиги от Namelees Visual</p>
+          <p class="section-subtitle">Выбирайте готовые ресурспаки и конфиги от Nameless Visual</p>
         </div>
       </div>
 
@@ -265,7 +265,7 @@
       <button class="modal-close-btn" onclick="window.app.closeAllModals()">✕</button>
       
       <div class="product-modal-hero">
-        <img src="assets/logo.jpg" alt="Preview" class="modal-main-img" id="modal-main-image">
+        <img src="assets/logo.jpg?v=20260924_01" alt="Preview" class="modal-main-img" id="modal-main-image">
         <div class="thumbnails-strip" id="modal-thumbnails-strip">
           <!-- Thumbnails loaded by JS -->
         </div>
@@ -322,7 +322,7 @@
 
         <!-- Promo input -->
         <div class="promo-input-wrap">
-          <input type="text" id="promo-code-input" class="form-input" placeholder="Промокод (напр. NAMELEES)">
+          <input type="text" id="promo-code-input" class="form-input" placeholder="Промокод (напр. NAMELESS)">
           <button class="action-btn outline-btn btn-sm" onclick="window.app.applyPromo(document.getElementById('promo-code-input').value)">
             Применить
           </button>
@@ -541,7 +541,7 @@
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
             <div class="admin-form-group" style="margin-bottom: 8px;">
               <label class="text-xs">Слово / Промокод (латиница или цифры)</label>
-              <input type="text" id="admin-promo-code" class="form-input" placeholder="например: NAMELEES" style="text-transform: uppercase; font-weight: 700;">
+              <input type="text" id="admin-promo-code" class="form-input" placeholder="например: NAMELESS" style="text-transform: uppercase; font-weight: 700;">
             </div>
             <div class="admin-form-group" style="margin-bottom: 8px;">
               <label class="text-xs">Процент скидки (от 1% до 99%)</label>
@@ -618,7 +618,7 @@
             <!-- Promo code -->
             <div class="admin-form-group" id="admin-roulette-group-code" style="display: none; margin-bottom: 8px;">
               <label class="text-xs">Слово промокода (латиница)</label>
-              <input type="text" id="admin-roulette-code" class="form-input" placeholder="NAMELEES" style="text-transform: uppercase; font-weight: 700;">
+              <input type="text" id="admin-roulette-code" class="form-input" placeholder="NAMELESS" style="text-transform: uppercase; font-weight: 700;">
             </div>
             <!-- Promo discount % -->
             <div class="admin-form-group" id="admin-roulette-group-discount" style="display: none; margin-bottom: 8px;">
@@ -685,7 +685,7 @@
     <div class="modal-window" style="max-width: 500px; text-align: center; padding: 36px 24px;">
       <div style="font-size: 48px; margin-bottom: 12px;">🎉</div>
       <h2 class="text-2xl font-bold mb-2">Заказ успешно оформлен!</h2>
-      <p class="text-secondary text-sm mb-6">Спасибо за выбор Namelees Visual. Ваши файлы активированы и готовы к скачиванию:</p>
+      <p class="text-secondary text-sm mb-6">Спасибо за выбор Nameless Visual. Ваши файлы активированы и готовы к скачиванию:</p>
 
       <div id="order-downloads-list" class="flex flex-col gap-3 mb-6 text-left">
         <!-- Rendered by JS -->
@@ -704,8 +704,8 @@
     <div class="modal-window" style="max-width: 440px; padding: 36px 28px; text-align: center;">
       <button type="button" class="modal-close-btn" onclick="closeAuthModal()" title="Закрыть">✕</button>
       <div style="margin-bottom: 20px;">
-        <img src="assets/logo.jpg" alt="Logo" style="width: 60px; height: 60px; border-radius: 14px; object-fit: cover; margin-bottom: 12px; box-shadow: 0 0 25px rgba(168, 85, 247, 0.5); border: 1px solid var(--border-glow);">
-        <h2 class="text-2xl font-black">NAMELEES VISUAL</h2>
+        <img src="assets/logo.jpg?v=20260924_01" alt="Logo" style="width: 60px; height: 60px; border-radius: 14px; object-fit: cover; margin-bottom: 12px; box-shadow: 0 0 25px rgba(168, 85, 247, 0.5); border: 1px solid var(--border-glow);">
+        <h2 class="text-2xl font-black">NAMELESS VISUAL</h2>
         <p class="text-xs text-secondary mt-1">Авторизуйтесь для доступа к магазину ресурспаков и лутбоксу</p>
       </div>
 
@@ -857,7 +857,7 @@
           <span id="topup-promo-badge" class="topup-promo-badge" style="display: none;"></span>
         </div>
         <div class="topup-promo-input-wrap">
-          <input type="text" id="topup-promo-input" class="form-input" placeholder="например: NAMELEES" style="text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em;" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();window.app.applyTopupPromo();}">
+          <input type="text" id="topup-promo-input" class="form-input" placeholder="например: NAMELESS" style="text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em;" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();window.app.applyTopupPromo();}">
           <button type="button" id="topup-promo-apply-btn" class="action-btn primary-btn btn-sm" onclick="window.app.applyTopupPromo()">
             Применить
           </button>
@@ -904,13 +904,13 @@
   <footer class="site-footer">
     <div class="container">
       <div class="flex items-center justify-center gap-3 mb-3">
-        <img src="assets/logo.jpg" alt="Logo" style="width: 28px; height: 28px; border-radius: 6px; object-fit: cover;">
-        <strong style="color: #fff; letter-spacing: 0.05em;">NAMELEES VISUAL</strong>
+        <img src="assets/logo.jpg?v=20260924_01" alt="Logo" style="width: 28px; height: 28px; border-radius: 6px; object-fit: cover;">
+        <strong style="color: #fff; letter-spacing: 0.05em;">NAMELESS VISUAL</strong>
       </div>
-      <p class="mb-2">© 2026 Namelees Visual. Все права защищены.</p>
+      <p class="mb-2">© 2026 Nameless Visual. Все права защищены.</p>
       <div>
-        <a href="https://t.me/NameleesVisual" target="_blank" rel="noopener noreferrer" style="color: #38bdf8; text-decoration: none; font-size: 0.88rem; font-weight: 600;">
-          ✈️ Официальный Telegram-канал: @NameleesVisual
+        <a href="https://t.me/NamelessVisual" target="_blank" rel="noopener noreferrer" style="color: #38bdf8; text-decoration: none; font-size: 0.88rem; font-weight: 600;">
+          ✈️ Официальный Telegram-канал: @NamelessVisual
         </a>
         <span onclick="window.app.openAdminModal()" style="cursor: pointer; opacity: 0.35; margin-left: 12px; font-size: 0.8rem; color: #94a3b8;" title="Панель управления товарами (Alt+V)">⚙️ Панель</span>
         <span onclick="window.spaceBg && window.spaceBg.toggle()" id="footer-bg-toggle" style="cursor: pointer; opacity: 0.55; margin-left: 14px; font-size: 0.8rem; color: #c084fc;" title="Сменить фон (Космос со звёздами / Классический)">🌌 Фон: Космос</span>
@@ -948,8 +948,8 @@
   </nav>
 
   <!-- Scripts -->
-  <script src="js/products-data.js?v=20260919_17"></script>
-  <script src="js/space-bg.js?v=20260919_17"></script>
-  <script src="js/app.js?v=20260919_17"></script>
+  <script src="js/products-data.js?v=20260924_01"></script>
+  <script src="js/space-bg.js?v=20260924_01"></script>
+  <script src="js/app.js?v=20260924_01"></script>
 </body>
 </html>

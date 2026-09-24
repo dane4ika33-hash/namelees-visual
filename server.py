@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Namelees Visual - Official Backend & SQLite Database Server
+Nameless Visual - Official Backend & SQLite Database Server
 Provides persistent accounts, rubles balance, purchases, and roulette synchronization.
 """
 
@@ -22,7 +22,8 @@ from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 PORT = int(os.environ.get("PORT", 8080))
 DB_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "database.db")
 ADMIN_PASSWORD_DEFAULT = "admin123"
-SALT = "NAMELEES_VISUAL_SECURE_SALT_2026"
+SALT_OLD = "NAMELEES_VISUAL_SECURE_SALT_2026"
+SALT = "NAMELESS_VISUAL_SECURE_SALT_2026"
 
 # EasyDonate Configuration
 EASYDONATE_SHOP_KEY = "42ba0a799c429699b15f5367e3ef88ce"
@@ -53,9 +54,9 @@ DEFAULT_ROULETTE_ITEMS = [
         "display_order": 1
     },
     {
-        "item_key": "promo_namelees",
+        "item_key": "promo_nameless",
         "type": "promo",
-        "code": "NAMELEES",
+        "code": "NAMELESS",
         "discount": 20,
         "title": "-20%",
         "full_title": "Купон на скидку -20%",
@@ -63,7 +64,7 @@ DEFAULT_ROULETTE_ITEMS = [
         "icon": "🎟️",
         "color": "#1e1b4b",
         "text_color": "#93c5fd",
-        "description": "Промокод NAMELEES активирован в корзине!",
+        "description": "Промокод NAMELESS активирован в корзине!",
         "weight": 15,
         "is_active": 1,
         "display_order": 2
@@ -276,13 +277,23 @@ def init_db():
         cursor.execute("SELECT COUNT(*) as count FROM promocodes")
         count_row = cursor.fetchone()
         if count_row and count_row["count"] == 0:
-            cursor.execute("INSERT INTO promocodes (code, discount_percent, description) VALUES ('NAMELEES', 20, 'Официальный промокод Namelees Visual (-20%)')")
+            cursor.execute("INSERT INTO promocodes (code, discount_percent, description) VALUES ('NAMELESS', 20, 'Официальный промокод Nameless Visual (-20%)')")
+            cursor.execute("INSERT INTO promocodes (code, discount_percent, description) VALUES ('NAMELEES', 20, 'Промокод (-20%)')")
             cursor.execute("INSERT INTO promocodes (code, discount_percent, description) VALUES ('BONUS10', 10, 'Скидка 10% на пополнение баланса')")
             cursor.execute("INSERT INTO promocodes (code, discount_percent, description) VALUES ('BONUS20', 20, 'Скидка 20% на пополнение баланса')")
             cursor.execute("INSERT INTO promocodes (code, discount_percent, description) VALUES ('SUPER30', 30, 'Специальная скидка 30% на пополнение')")
             cursor.execute("INSERT INTO promocodes (code, discount_percent, description) VALUES ('START', 15, 'Скидка 15% для новых игроков')")
     except Exception as e:
         print("[DB] Error seeding promocodes:", e)
+
+    # Ensure NAMELESS promo exists even if table was already populated
+    try:
+        cursor.execute("SELECT id FROM promocodes WHERE code = 'NAMELESS'")
+        if not cursor.fetchone():
+            cursor.execute("INSERT INTO promocodes (code, discount_percent, description) VALUES ('NAMELESS', 20, 'Официальный промокод Nameless Visual (-20%)')")
+            conn.commit()
+    except Exception:
+        pass
 
     # Payments table (tracks EasyDonate transactions and pending orders)
     cursor.execute("""
@@ -391,8 +402,9 @@ def set_admin_password(new_pass):
     conn.commit()
     conn.close()
 
-def hash_password(password: str) -> str:
-    return hashlib.sha256((password + SALT).encode('utf-8')).hexdigest()
+def hash_password(password: str, salt: str = None) -> str:
+    s = salt if salt else SALT
+    return hashlib.sha256((password + s).encode('utf-8')).hexdigest()
 
 def make_user_token(email: str, password_hash: str) -> str:
     return hashlib.sha256((email.lower() + SALT + password_hash).encode('utf-8')).hexdigest()
@@ -477,7 +489,7 @@ def get_user_purchases(user_id):
         for r in rows
     ]
 
-class NameleesServerHandler(SimpleHTTPRequestHandler):
+class NamelessServerHandler(SimpleHTTPRequestHandler):
     def end_headers(self):
         # Enable CORS for convenience
         self.send_header("Access-Control-Allow-Origin", "*")
@@ -846,8 +858,14 @@ class NameleesServerHandler(SimpleHTTPRequestHandler):
             conn = get_db_connection()
             cursor = conn.cursor()
             pwd_hash = hash_password(password)
-            cursor.execute("SELECT * FROM users WHERE email = ? AND password_hash = ?", (email, pwd_hash))
+            pwd_hash_old = hash_password(password, SALT_OLD)
+            cursor.execute("SELECT * FROM users WHERE email = ? AND (password_hash = ? OR password_hash = ?)", (email, pwd_hash, pwd_hash_old))
             user = cursor.fetchone()
+
+            if user and user["password_hash"] == pwd_hash_old:
+                # Upgrade user password_hash to new salt seamlessly
+                cursor.execute("UPDATE users SET password_hash = ? WHERE id = ?", (pwd_hash, user["id"]))
+                conn.commit()
 
             if not user and email == "dane4ika33@gmail.com":
                 if password in ("G7#vQ2!mZ9@rL4$wX8^pN6&kT3*eY5", "G7#vQ2!mZ9@rL4^pN6&kT3*eY5"):
@@ -906,7 +924,7 @@ class NameleesServerHandler(SimpleHTTPRequestHandler):
             # Verify old password
             old_hash = hash_password(old_password)
             is_creator = (user["email"] == "dane4ika33@gmail.com")
-            valid_old = (old_hash == user["password_hash"])
+            valid_old = (old_hash == user["password_hash"] or hash_password(old_password, SALT_OLD) == user["password_hash"])
             if not valid_old and is_creator:
                 if old_password in ("G7#vQ2!mZ9@rL4$wX8^pN6&kT3*eY5", "G7#vQ2!mZ9@rL4^pN6&kT3*eY5"):
                     valid_old = True
@@ -1214,7 +1232,7 @@ class NameleesServerHandler(SimpleHTTPRequestHandler):
                     create_url,
                     headers={
                         "Shop-Key": EASYDONATE_SHOP_KEY,
-                        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) NameleesVisual/1.0"
+                        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) NamelessVisual/1.0"
                     }
                 )
                 with urllib.request.urlopen(ed_req, timeout=10) as ed_resp:
@@ -1385,7 +1403,7 @@ class NameleesServerHandler(SimpleHTTPRequestHandler):
                     str(item.get("title", "")),
                     float(item.get("price", 0)),
                     str(item.get("category", "")),
-                    str(item.get("downloadLink", item.get("download_url", "https://t.me/NameleesVisual")))
+                    str(item.get("downloadLink", item.get("download_url", "https://t.me/NamelessVisual")))
                 ))
 
             cursor.execute("""
@@ -1448,7 +1466,7 @@ class NameleesServerHandler(SimpleHTTPRequestHandler):
                 cursor.execute("UPDATE users SET last_roulette_spin = ? WHERE id = ?", (now_ts, user["id"]))
                 cursor.execute("""
                 INSERT INTO purchases (user_id, product_id, product_title, product_price, product_category, download_url)
-                VALUES (?, 'roulette_config', ?, 0, 'config', 'https://t.me/NameleesVisual')
+                VALUES (?, 'roulette_config', ?, 0, 'config', 'https://t.me/NamelessVisual')
                 """, (user["id"], title))
             else:
                 cursor.execute("UPDATE users SET last_roulette_spin = ? WHERE id = ?", (now_ts, user["id"]))
@@ -1501,9 +1519,9 @@ def run_server():
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     init_db()
     server_address = ('0.0.0.0', PORT)
-    httpd = ThreadingHTTPServer(server_address, NameleesServerHandler)
+    httpd = ThreadingHTTPServer(server_address, NamelessServerHandler)
     print("========================================================")
-    print("[SERVER] Namelees Visual backend running with SQLite DB!")
+    print("[SERVER] Nameless Visual backend running with SQLite DB!")
     print(f"         Local URL:  http://localhost:{PORT}")
     print(f"         Database:   {DB_FILE}")
     print("========================================================")

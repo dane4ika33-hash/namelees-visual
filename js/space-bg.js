@@ -1,5 +1,5 @@
 /**
- * Namelees Visual - Cosmic Space & Stars Background (Pulse Visual Aesthetic)
+ * Nameless Visual - Cosmic Space & Stars Background (Pulse Visual Aesthetic)
  * Features:
  * - Multi-layer starfield with realistic twinkle, colors, and subtle drift
  * - 4-point cinematic sparkle flares on bright stars

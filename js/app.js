@@ -8,7 +8,7 @@ window.onerror = function(msg, url, line, col, error) {
   }).catch(() => {});
 };
 
-// Namelees Visual - Main Application Logic (Auth, Profile, Rubles Balance, Shop, Admin)
+// Nameless Visual - Main Application Logic (Auth, Profile, Rubles Balance, Shop, Admin)
 class App {
   constructor() {
     this.products = [];
@@ -624,7 +624,7 @@ class App {
           <strong>${item.title || item.product_title || 'Товар'}</strong>
           <div class="text-muted text-xs">${item.category === 'config' ? '⚙️ Конфиг' : '📦 Ресурспак'} • Активировано • ${item.purchased_at || ''}</div>
         </div>
-        <button class="action-btn primary-btn btn-sm" onclick="window.open('${item.download_url || item.downloadUrl || 'https://t.me/NameleesVisual'}', '_blank')">
+        <button class="action-btn primary-btn btn-sm" onclick="window.open('${item.download_url || item.downloadUrl || 'https://t.me/NamelessVisual'}', '_blank')">
           ⬇️ Скачать архив
         </button>
       </div>
@@ -864,7 +864,7 @@ class App {
           <strong>${item.title || item.product_title || 'Товар'}</strong>
           <div class="text-muted text-xs">${item.category === 'config' ? '⚙️ Конфиг' : '📦 Ресурспак'} • Доступ навсегда • ${item.purchased_at || ''}</div>
         </div>
-        <button class="action-btn primary-btn btn-sm" onclick="window.open('${item.download_url || item.downloadUrl || 'https://t.me/NameleesVisual'}', '_blank')">
+        <button class="action-btn primary-btn btn-sm" onclick="window.open('${item.download_url || item.downloadUrl || 'https://t.me/NamelessVisual'}', '_blank')">
           ⬇️ Скачать архив
         </button>
       </div>
@@ -1026,6 +1026,7 @@ class App {
 
       // Local fallback check
       const fallbackPromos = {
+        'NAMELESS': 20,
         'NAMELEES': 20,
         'BONUS10': 10,
         'BONUS20': 20,
@@ -1700,6 +1701,7 @@ class App {
     const cleanCode = code.toUpperCase().trim();
     
     const defaultCodes = {
+      'NAMELESS': 20,
       'NAMELEES': 20,
       'PULSE': 20,
       'BONUS20': 20,
@@ -2131,7 +2133,7 @@ class App {
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.products, null, 2));
     const downloadAnchor = document.createElement('a');
     downloadAnchor.setAttribute("href", dataStr);
-    downloadAnchor.setAttribute("download", "namelees_visual_products.json");
+    downloadAnchor.setAttribute("download", "nameless_visual_products.json");
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();

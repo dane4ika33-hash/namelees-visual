@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Мой профиль — Namelees Visual</title>
-  <meta name="description" content="Личный кабинет игрока Namelees Visual: баланс рублей, ежедневный лутбокс, скачивание ресурспаков и конфигов.">
-  <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
+  <title>Мой профиль — Nameless Visual</title>
+  <meta name="description" content="Личный кабинет игрока Nameless Visual: баланс рублей, ежедневный лутбокс, скачивание ресурспаков и конфигов.">
+  <link rel="icon" type="image/jpeg" href="assets/logo.jpg?v=20260924_01">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="css/style.css?v=20260919_17">
+  <link rel="stylesheet" href="css/style.css?v=20260924_01">
   <script>
     function switchAuthTab(tab) {
       var regBtn = document.getElementById('auth-tab-btn-register');
@@ -258,9 +258,9 @@
   <header class="site-header">
     <div class="container header-inner">
       <a href="index.html" class="brand-logo-link">
-        <img src="assets/logo.jpg" alt="Namelees Visual Logo" class="header-logo-img">
+        <img src="assets/logo.jpg?v=20260924_01" alt="Nameless Visual Logo" class="header-logo-img">
         <div class="brand-title-wrap">
-          <span class="brand-name">Namelees Visual</span>
+          <span class="brand-name">Nameless Visual</span>
           <span class="brand-subtitle">PvP & Visual Mod Store</span>
         </div>
       </a>
@@ -274,7 +274,7 @@
 
       <div class="header-actions">
         <!-- Telegram Channel Link -->
-        <a href="https://t.me/NameleesVisual" target="_blank" rel="noopener noreferrer" class="telegram-header-btn" title="Наш Telegram-канал">
+        <a href="https://t.me/NamelessVisual" target="_blank" rel="noopener noreferrer" class="telegram-header-btn" title="Наш Telegram-канал">
           <span>✈️</span>
           <span>Telegram</span>
         </a>
@@ -370,7 +370,7 @@
 
         <!-- Distinct Action Cards (Separated with icons & descriptions) -->
         <div class="profile-actions-list">
-          <a href="https://t.me/NameleesVisual" target="_blank" rel="noopener noreferrer" class="profile-action-card tg-card">
+          <a href="https://t.me/NamelessVisual" target="_blank" rel="noopener noreferrer" class="profile-action-card tg-card">
             <span class="action-card-icon">✈️</span>
             <div class="action-card-text">
               <strong>Наш Telegram-канал</strong>
@@ -532,7 +532,7 @@
           <span id="topup-promo-badge" class="topup-promo-badge" style="display: none;"></span>
         </div>
         <div class="topup-promo-input-wrap">
-          <input type="text" id="topup-promo-input" class="form-input" placeholder="например: NAMELEES" style="text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em;" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();window.app.applyTopupPromo();}">
+          <input type="text" id="topup-promo-input" class="form-input" placeholder="например: NAMELESS" style="text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em;" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();window.app.applyTopupPromo();}">
           <button type="button" id="topup-promo-apply-btn" class="action-btn primary-btn btn-sm" onclick="window.app.applyTopupPromo()">
             Применить
           </button>
@@ -575,8 +575,8 @@
     <div class="modal-window" style="max-width: 440px; padding: 36px 28px; text-align: center;">
       <button type="button" class="modal-close-btn" onclick="closeAuthModal()" title="Закрыть">✕</button>
       <div style="margin-bottom: 20px;">
-        <img src="assets/logo.jpg" alt="Logo" style="width: 60px; height: 60px; border-radius: 14px; object-fit: cover; margin-bottom: 12px; box-shadow: 0 0 25px rgba(168, 85, 247, 0.5); border: 1px solid var(--border-glow);">
-        <h2 class="text-2xl font-black">NAMELEES VISUAL</h2>
+        <img src="assets/logo.jpg?v=20260924_01" alt="Logo" style="width: 60px; height: 60px; border-radius: 14px; object-fit: cover; margin-bottom: 12px; box-shadow: 0 0 25px rgba(168, 85, 247, 0.5); border: 1px solid var(--border-glow);">
+        <h2 class="text-2xl font-black">NAMELESS VISUAL</h2>
         <p class="text-xs text-secondary mt-1">Авторизуйтесь для входа в личный профиль</p>
       </div>
 
@@ -810,7 +810,7 @@
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
             <div class="admin-form-group" style="margin-bottom: 8px;">
               <label class="text-xs">Слово / Промокод (латиница или цифры)</label>
-              <input type="text" id="admin-promo-code" class="form-input" placeholder="например: NAMELEES" style="text-transform: uppercase; font-weight: 700;">
+              <input type="text" id="admin-promo-code" class="form-input" placeholder="например: NAMELESS" style="text-transform: uppercase; font-weight: 700;">
             </div>
             <div class="admin-form-group" style="margin-bottom: 8px;">
               <label class="text-xs">Процент скидки (от 1% до 99%)</label>
@@ -887,7 +887,7 @@
             <!-- Promo code -->
             <div class="admin-form-group" id="admin-roulette-group-code" style="display: none; margin-bottom: 8px;">
               <label class="text-xs">Слово промокода (латиница)</label>
-              <input type="text" id="admin-roulette-code" class="form-input" placeholder="NAMELEES" style="text-transform: uppercase; font-weight: 700;">
+              <input type="text" id="admin-roulette-code" class="form-input" placeholder="NAMELESS" style="text-transform: uppercase; font-weight: 700;">
             </div>
             <!-- Promo discount % -->
             <div class="admin-form-group" id="admin-roulette-group-discount" style="display: none; margin-bottom: 8px;">
@@ -954,13 +954,13 @@
   <footer class="site-footer">
     <div class="container">
       <div class="flex items-center justify-center gap-3 mb-3">
-        <img src="assets/logo.jpg" alt="Logo" style="width: 28px; height: 28px; border-radius: 6px; object-fit: cover;">
-        <strong style="color: #fff; letter-spacing: 0.05em;">NAMELEES VISUAL</strong>
+        <img src="assets/logo.jpg?v=20260924_01" alt="Logo" style="width: 28px; height: 28px; border-radius: 6px; object-fit: cover;">
+        <strong style="color: #fff; letter-spacing: 0.05em;">NAMELESS VISUAL</strong>
       </div>
-      <p class="mb-2">© 2026 Namelees Visual. Все права защищены.</p>
+      <p class="mb-2">© 2026 Nameless Visual. Все права защищены.</p>
       <div>
-        <a href="https://t.me/NameleesVisual" target="_blank" rel="noopener noreferrer" style="color: #38bdf8; text-decoration: none; font-size: 0.88rem; font-weight: 600;">
-          ✈️ Официальный Telegram-канал: @NameleesVisual
+        <a href="https://t.me/NamelessVisual" target="_blank" rel="noopener noreferrer" style="color: #38bdf8; text-decoration: none; font-size: 0.88rem; font-weight: 600;">
+          ✈️ Официальный Telegram-канал: @NamelessVisual
         </a>
         <span onclick="window.spaceBg && window.spaceBg.toggle()" id="footer-bg-toggle" style="cursor: pointer; opacity: 0.55; margin-left: 14px; font-size: 0.8rem; color: #c084fc;" title="Сменить фон (Космос со звёздами / Классический)">🌌 Фон: Космос</span>
       </div>
@@ -997,9 +997,9 @@
   </nav>
 
   <!-- Scripts -->
-  <script src="js/products-data.js?v=20260919_17"></script>
-  <script src="js/lootbox.js?v=20260919_17"></script>
-  <script src="js/space-bg.js?v=20260919_17"></script>
-  <script src="js/app.js?v=20260919_17"></script>
+  <script src="js/products-data.js?v=20260924_01"></script>
+  <script src="js/lootbox.js?v=20260924_01"></script>
+  <script src="js/space-bg.js?v=20260924_01"></script>
+  <script src="js/app.js?v=20260924_01"></script>
 </body>
 </html>
