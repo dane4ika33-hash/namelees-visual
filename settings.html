@@ -388,45 +388,38 @@
        ================================================================ -->
   <header class="site-header">
     <div class="container header-inner">
-      <a href="index.html" class="brand-logo-link">
-        <img src="assets/logo.jpg?v=20260924_01" alt="Nameless Visual Logo" class="header-logo-img">
-        <div class="brand-title-wrap">
-          <span class="brand-name">Nameless Visual</span>
-          <span class="brand-subtitle">PvP & Visual Mod Store</span>
+      <div class="header-brand-group">
+        <div class="studio-mac-dots">
+          <span class="mac-dot red"></span>
+          <span class="mac-dot yellow"></span>
+          <span class="mac-dot green"></span>
         </div>
-      </a>
+        <a href="index.html" class="brand-logo-link">
+          <img src="assets/logo.jpg?v=20260924_01" alt="Nameless Visual Logo" class="header-logo-img">
+          <div class="brand-title-wrap">
+            <span class="brand-name">Nameless <span class="brand-name-light">Visual</span></span>
+          </div>
+        </a>
+      </div>
 
       <nav class="main-nav">
-        <a href="index.html" class="nav-link">← В магазин</a>
-        <a href="index.html#shop" class="nav-link">Каталог товаров</a>
-        <a href="index.html#download" class="nav-link nav-download-btn">📥 Скачать</a>
+        <a href="index.html" class="nav-link">Главная</a>
+        <a href="index.html#shop" class="nav-link">Товары</a>
         <a href="profile.html" class="nav-link">Мой профиль</a>
-        <a href="settings.html" class="nav-link active" style="color: #38bdf8; font-weight: 700;">⚙️ Настройки</a>
+        <a href="settings.html" class="nav-link active">Настройки</a>
+        <a href="https://t.me/NamelessVisual" target="_blank" rel="noopener noreferrer" class="nav-link">Telegram</a>
       </nav>
 
       <div class="header-actions">
-        <!-- Telegram Channel Link -->
-        <a href="https://t.me/NamelessVisual" target="_blank" rel="noopener noreferrer" class="telegram-header-btn" title="Наш Telegram-канал">
-          <span>✈️</span>
-          <span>Telegram</span>
-        </a>
-
         <!-- Balance Rubles -->
         <div class="balance-pill" onclick="window.app.openTopupModal()" title="Ваш баланс (нажмите для пополнения)">
           <span>💵</span>
           <span id="header-balance-amount">0&nbsp;₽</span>
         </div>
 
-        <!-- User Profile Button / Login Button -->
-        <button type="button" class="header-user-btn" id="header-user-profile-btn" onclick="if(window.app){window.app.handleHeaderUserClick();}else{document.getElementById('auth-modal-backdrop').classList.add('active');}" title="Войти в аккаунт" style="display: none;">
-          <img id="header-user-avatar-img" src="" alt="Avatar" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover; display: none;">
-          <span class="user-avatar-circle" id="header-user-avatar-char">👤</span>
-          <span id="header-user-nickname">Войти</span>
-        </button>
-
-        <!-- Settings Button -->
-        <a href="settings.html" class="header-settings-btn active" title="Настройки аккаунта">
-          <span>⚙️</span>
+        <!-- Glowing Pill Download Button -->
+        <a href="index.html#download" onclick="window.app.downloadNamelessVisual(event)" class="header-signup-pill-btn" title="Скачать Nameless Visual">
+          <span>⚡ Скачать</span>
         </a>
 
         <button class="action-btn outline-btn btn-sm" id="prof-header-logout-btn" onclick="window.app.logoutUser()" title="Выйти из аккаунта">
