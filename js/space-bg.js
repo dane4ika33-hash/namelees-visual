@@ -5,8 +5,8 @@
  */
 (function() {
   var _0xk = "NV_SPACE_w88@Key";
-  var _0xo = 0x7;
-  var _0xt = ["YCI3Nj0kbjYoHkxbKGYVECI6","YCI3Nj0kbjYoHkxbKGYMGiE4","YCI3Nj0kbjYoHkxbKGYJGCwzMw==","JyVyMDwgMDY2FA==","KDkwJzUzbic4WkxXJywJHA==","Ijk+NzkvJA==","ChkSED8vNyAxA3RXIS8AHQ==","ITgrPCUiKzYrFkpM","ICAAJzgkLiAAFV8=","PSY+MDU=","bTA5NTYnJQ==","bTNvNWInJg==","bTQ+NmYnJw==","bTVva2QnIA==","bTNmN2UnJQ==","bTA6NWB5Ig==","PSY+MDVsISJyG1lBJTk=","Kj8p","LyQ2Mn0pKiE7ElY=","OiQqNg==","RHZ/c3BhY2V/VxgEJCITWS06PiAjfGEmMARVUSNmCxwsIzMycC8mJyobWRUwPhcJIjN9bWxuJywpSTIYYGtFWW52f3NwfScsKVdbVCE4FkRsNTAgPSggaDESWk0sKkUXKzQqPzFsIDw+GRoGfGQBEDhoVXNwYWNlf1cYGGB3ARA4djw/MTIweH0UV0stIgZUIDM9JjwgYys6FU1UIWYMFyo/ODxyf39qOx5OBkprRVludn9zcGFjeTseThgjJwQKPWt9MD8yLiw8WlxNMz9IFjgzLT8xOGF7Y1hcUTZ1b1ludn9zcGFjZX9LW1kuPQQKbj87bnIyMyQ8EhVLNCoXCmM1Pj0mIDBnYUsXWyElExg9aFVzcGFjZX9XGA==","PSY+MDVsMDE+BUsVIyoLDy8l","fDI=","PSY+MDVsISJyEVRXIT8MFyl7Kzw3Ji8g","RHZ/c3BhY2V/VxgEIj4RDSE4fycpMSZ4fRVNTDQkC1tuNTMyIzJ+ZysfXVUlZhYOJyI8O30xKikzVRhXLigJEC09YnEnKC0hMAAWSzAqBhwMMX91dmE0LDETV09uOBUYLTMdNH41LCI4G10QaWlFDSciMzZtY5Pkj8vojZD2tcGf1I7fcJDHleGnhQJgm/+p8Ifeg+yR/ZTeV+m5kPVFqfmG7YPlkfSV66eI6Pyb3Vlhdo/ygcOT9Y/K6IyQ+7T5n9SP7oHKk/x9STIYYGtFWW52f3NwYWN5LAdZVmAoCRg9JWJxJCkmKDpaS08pPwYRYz88PD5jfbXA+7QEbzgVGCBoVXNwYWNlf1cYGGBrRUU9Jj49cCIvJCwEBRo0IwAUK3ssJDk1IC1yG1laJSdHR57yj+2A/Hllj+3ohpHKtcWe6I7SbG4wNT4ZBjJga0VZbnZ/c3Bhf2o9AkxMLyVbc252f3NwYWNl","Pi4=","bWVnMTQnew==","PDMsOiok","IzkqIDUsLDM6","PTUtPDwt","OD8sOjIoLywrDltQISUCHA==","OiQ+PSMxIjc6GUw=","PDkqPTQ=","LTo+ICMoIA==","LTo+ICMoIGg9EA==","PSY+MDVsISJyFltMKT0A","vsnT33CR0ZXlp4PpzpriqN+G4nOA+5P7jvbohJDztP6e447SgPuT/Y/OGOnEm9up83aO0oD/Y5Xop4rp0ZvSqfqG74Pskftld6a56cKb3an1h9NzADQvNjpXblEzPgQVZw==","vsnR+3CR0ZXhp4/o8prlqf6H1oLBkf5ljvbpupD7tcSe4o/jgcGSx4/K6bOQ8kWp9Ibkg+CQwpTep4Dpx5vQqM+G5YPokfpljvPohpD2RajPhu+D6ZDBle8=","KCMxMCQoLCs=","Jzg5PA==","vsnT3w==","vsnR+w==","nvKP7YD8eWWP7eiGkcq1xZ7ojtI=","nvKP7YD8eWWP7eiDkPu0+J/Xj+uA+5P1","nveP5oD4ksKPx+m5YJvXqfSG5ILekMSV6qeFGJDRtcef14/vgP+SxHFX6KWQ+7XPnuqP64HDk/BzV+m/kcm1x57njthwkfGV6qa46P2a5qjMh9NzgcCSx4/H6IWQ/7XJn9aO0YD8ks6PzhjpxJvbqfM=","nveP5oD4ksKPx+m5YJvXqfSG5ILekMSV6qeFGJDRtcKe5o7SgcCT/Y7w6I2RyrXDnu6P6nCQx5Xhp4UWYJv4qf6G6YPskfuU3aeNFGCa4qjMhuGD4ZDIZY/F6IKQ8LT3n9GP64HDksl/p6Lo/prkqfKG4YLR"];
+  var _0xo = 0x6;
+  var _0xt = ["YCI3Nj0kbjYoHkxbKGYMGiE4","YCI3Nj0kbjYoHkxbKGYJGCwzMw==","JyVyMDwgMDY2FA==","KDkwJzUzbic4WkxXJywJHA==","Ijk+NzkvJA==","ChkSED8vNyAxA3RXIS8AHQ==","ITgrPCUiKzYrFkpM","ICAAJzgkLiAAFV8=","PSY+MDU=","bTA5NTYnJQ==","bTBuNWUneg==","bTU9N2Ukcg==","bW5uazMnew==","bTVoN2InJg==","bTNvNmcnJQ==","PSY+MDVsISJyG1lBJTk=","Kj8p","LyQ2Mn0pKiE7ElY=","OiQqNg==","RHZ/c3BhY2V/VxgEJCITWS06PiAjfGEmMARVUSNmCxwsIzMycC8mJyobWRUwPhcJIjN9bWxuJywpSTIYYGtFWW52f3NwfScsKVdbVCE4FkRsNTAgPSggaDESWk0sKkUXKzQqPzFsIDw+GRoGfGQBEDhoVXNwYWNlf1cYGGB3ARA4djw/MTIweH0UV0stIgZUIDM9JjwgYys6FU1UIWYMFyo/ODxyf39qOx5OBkprRVludn9zcGFjeTseThgjJwQKPWt9MD8yLiw8WlxNMz9IFjgzLT8xOGF7Y1hcUTZ1b1ludn9zcGFjZX9LW1kuPQQKbj87bnIyMyQ8EhVLNCoXCmM1Pj0mIDBnYUsXWyElExg9aFVzcGFjZX9XGA==","PSY+MDVsMDE+BUsVIyoLDy8l","fDI=","PSY+MDVsISJyEVRXIT8MFyl7Kzw3Ji8g","RHZ/c3BhY2V/VxgEIj4RDSE4fycpMSZ4fRVNTDQkC1tuNTMyIzJ+ZysfXVUlZhYOJyI8O30xKikzVRhXLigJEC09YnEnKC0hMAAWSzAqBhwMMX91dmE0LDETV09uOBUYLTMdNH41LCI4G10QaWlFDSciMzZtY5Pkj8vojZD2tcGf1I7fcJDHleGnhQJgm/+p8Ifeg+yR/ZTeV+m5kPVFqfmG7YPlkfSV66eI6Pyb3Vlhdo/ygcOT9Y/K6IyQ+7T5n9SP7oHKk/x9STIYYGtFWW52f3NwYWN5LAdZVmAoCRg9JWJxJCkmKDpaS08pPwYRYz88PD5jfbXA+7QEbzgVGCBoVXNwYWNlf1cYGGBrRUU9Jj49cCIvJCwEBRo0IwAUK3ssJDk1IC1yG1laJSdHR57yj+2A/Hllj+3ohpHKtcWe6I7SbG4wNT4ZBjJga0VZbnZ/c3Bhf2o9AkxMLyVbc252f3NwYWNl","Pi4=","bTVva2QnIA==","bWVnMTQnew==","PDMsOiok","IzkqIDUsLDM6","PTUtPDwt","OD8sOjIoLywrDltQISUCHA==","OiQ+PSMxIjc6GUw=","PDkqPTQ=","LTo+ICMoIA==","LTo+ICMoIGg9EA==","PSY+MDVsISJyFltMKT0A","rMr3c4DTk/+PzOm2kcy1zJ7rj+NwkfOU3aeE6P6a5KjKhuqC0JHzZRAVS1EkIgQXbhEzMiMyY22Py+iIkcm1x57kjtiA+GOV5aeG6cGb2anwh956","vsnJ93CR0ZXlp4PpzpriqfuG4nOA/ZP9j8rogJD3tcme7Y/rgcCSx4/P6b+Q9rTynu9/g+OR+JTcp4no/pvfqfaG5nOA/5P0jvbogJD/tcGe5o/ugP+T94786IFgmuGp8Ibi","KCMxMCQoLCs=","Jzg5PA==","rMr3","vsnJ9w==","nsaO0YD9k/uO9um8kP60+Z7mZXMfIzAsOx5ZVg==","nvKP7YD8eWWP6+iAkPa1wZ7qj+OA+g==","nveP5oD4ksKPx+m5YJvXqfSG5ILekMSV6qeF6PBrtcmf1I/vgP+SxI7z6I2Ry7XJbhk9IDklKiQxV39UITgWV26GwoPgkfWV46eA6cKb0Fme4o/ogc5jleOngOj9m92p8obvg+uQz5Xip4bo85vbWZ/Sj+2A/JP1","nveP5oD4ksKPx+m5YJvXqfSG5ILekMSV6qeFGJD3tcGe64/rgP2T9Y/M6bSQ9rTynu9/gtSR/ZXiWRjo3ZvVqfiG44PokMGV6lfojJDwtPZuhu2D6pH4lNGmv+j1m9ip9ofQc4DxksePy+iGkcq0/Z7jjtOBymMKPQRRXCkqCw==","YCI3Nj0kbjYoHkxbKGYVECI6"];
 
   // Self-invoking table rotation
   (function(_0xa, _0xs) {
@@ -188,7 +188,7 @@
       const speed = this.isMobile ? 0xa : (0xc + Math.random() * 0x8);
       const angle = (0x8c + (Math.random() * 0x14 - 0xa)) * (Math.PI / 0xb4);
       const length = this.isMobile ? 0x50 : (0x6e + Math.random() * 0x5a);
-      const color = Math.random() < 0.7 ? _0xsb(0x6) : _0xsb(0x13);
+      const color = Math.random() < 0.7 ? _0xsb(0x13) : _0xsb(0x14);
 
       this.meteors.push({
         x: startX,
@@ -206,18 +206,18 @@
     }
 
     setupEvents() {
-      window.addEventListener(_0xsb(0x14), () => {
+      window.addEventListener(_0xsb(0x15), () => {
         this.setupCanvas();
         this.createStars();
       }, { passive: true });
 
-      window.addEventListener(_0xsb(0x15), (e) => {
+      window.addEventListener(_0xsb(0x16), (e) => {
         if (this.isMobile) return;
         this.targetMouseX = (e.clientX / this.width - 0.5) * 0x14;
         this.targetMouseY = (e.clientY / this.height - 0.5) * 0x14;
       }, { passive: true });
 
-      window.addEventListener(_0xsb(0x16), () => {
+      window.addEventListener(_0xsb(0x17), () => {
         if (!this.isMobile) return;
         this.isScrolling = true;
         clearTimeout(this.scrollTimer);
@@ -226,7 +226,7 @@
         }, 0x78);
       }, { passive: true });
 
-      document.addEventListener(_0xsb(0x17), () => {
+      document.addEventListener(_0xsb(0x18), () => {
         if (document.hidden) {
           this.stop();
         } else if (this.theme === _0xsb(0x2)) {
@@ -337,12 +337,12 @@
         const grad = ctx.createLinearGradient(m.x, m.y, tailX, tailY);
         grad.addColorStop(0x0, _0xsb(0x3));
         grad.addColorStop(0.2, m.color);
-        grad.addColorStop(0x1, _0xsb(0x18));
+        grad.addColorStop(0x1, _0xsb(0x19));
 
         ctx.save();
         ctx.strokeStyle = grad;
         ctx.lineWidth = m.width;
-        ctx.lineCap = _0xsb(0x19);
+        ctx.lineCap = _0xsb(0x1a);
         ctx.globalAlpha = alpha;
 
         ctx.beginPath();
@@ -385,13 +385,13 @@
       this.theme = theme;
       localStorage.setItem(_0xsb(0x1), theme);
 
-      if (theme === _0xsb(0x1a)) {
-        document.body.classList.add(_0xsb(0x1b));
-        document.body.classList.remove(_0xsb(0x1c));
+      if (theme === _0xsb(0x1b)) {
+        document.body.classList.add(_0xsb(0x1c));
+        document.body.classList.remove(_0xsb(0x1d));
         this.stop();
       } else {
-        document.body.classList.remove(_0xsb(0x1b));
-        document.body.classList.add(_0xsb(0x1c));
+        document.body.classList.remove(_0xsb(0x1c));
+        document.body.classList.add(_0xsb(0x1d));
         this.start();
       }
 
@@ -399,38 +399,38 @@
     }
 
     toggle() {
-      const newTheme = this.theme === _0xsb(0x2) ? _0xsb(0x1a) : _0xsb(0x2);
+      const newTheme = this.theme === _0xsb(0x2) ? _0xsb(0x1b) : _0xsb(0x2);
       this.applyTheme(newTheme);
 
       const isSpace = newTheme === _0xsb(0x2);
       const msg = isSpace
-        ? _0xsb(0x1d)
-        : _0xsb(0x1e);
+        ? _0xsb(0x1e)
+        : _0xsb(0x1f);
       
-      if (window.app && typeof window.app.showToast === _0xsb(0x1f)) {
-        window.app.showToast(msg, _0xsb(0x20));
+      if (window.app && typeof window.app.showToast === _0xsb(0x20)) {
+        window.app.showToast(msg, _0xsb(0x21));
       }
     }
 
     updateButtons() {
       const isSpace = this.theme === _0xsb(0x2);
-      const icon = isSpace ? _0xsb(0x21) : _0xsb(0x22);
-      const label = isSpace ? _0xsb(0x23) : _0xsb(0x24);
+      const icon = isSpace ? _0xsb(0x22) : _0xsb(0x23);
+      const label = isSpace ? _0xsb(0x24) : _0xsb(0x25);
       const title = isSpace
-        ? _0xsb(0x25)
-        : _0xsb(0x26);
+        ? _0xsb(0x26)
+        : _0xsb(0x27);
 
-      const floatPill = document.querySelector(_0xsb(0x27));
+      const floatPill = document.querySelector(_0xsb(0x28));
       if (floatPill) {
         floatPill.title = title;
-        const iconEl = floatPill.querySelector(_0xsb(0x28));
-        const textEl = floatPill.querySelector(_0xsb(0x29));
+        const iconEl = floatPill.querySelector(_0xsb(0x29));
+        const textEl = floatPill.querySelector(_0xsb(0x2a));
         if (iconEl) iconEl.textContent = icon;
         if (textEl) textEl.textContent = label;
-        floatPill.classList.toggle(_0xsb(0x2a), !isSpace);
+        floatPill.classList.toggle(_0xsb(0x2b), !isSpace);
       }
 
-      const footerBtn = document.getElementById(_0xsb(0x2b));
+      const footerBtn = document.getElementById(_0xsb(0x2c));
       if (footerBtn) {
         footerBtn.textContent = `${icon} ${label}`;
         footerBtn.title = title;
@@ -438,8 +438,8 @@
     }
   }
 
-  if (document.readyState === _0xsb(0x2c)) {
-    document.addEventListener(_0xsb(0x2d), () => {
+  if (document.readyState === _0xsb(0x2d)) {
+    document.addEventListener(_0xsb(0x2e), () => {
       window.spaceBg = new SpaceCosmosBackground();
     });
   } else {

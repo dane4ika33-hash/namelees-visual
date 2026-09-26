@@ -112,14 +112,15 @@
     }
     .profile-sidebar-card {
       background: var(--bg-card);
-      backdrop-filter: blur(14px);
-      border: 1px solid var(--border-glow);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-subtle);
       border-radius: var(--radius-xl);
       padding: 32px 24px;
       text-align: center;
       position: sticky;
       top: 96px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.07);
     }
     @media (max-width: 980px) {
       .profile-page-grid {
@@ -132,7 +133,7 @@
         position: static !important;
         top: auto !important;
         padding: 24px 18px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
         width: 100%;
         box-sizing: border-box;
       }
@@ -163,8 +164,8 @@
       height: 88px;
       border-radius: 50%;
       object-fit: cover;
-      border: 3px solid #c084fc;
-      box-shadow: 0 0 25px rgba(192, 132, 252, 0.5);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
       display: block;
     }
     .profile-avatar-overlay {
@@ -182,7 +183,7 @@
       font-size: 0.68rem;
       font-weight: 700;
       letter-spacing: 0.05em;
-      backdrop-filter: blur(2px);
+      backdrop-filter: blur(4px);
     }
     .profile-avatar-wrapper:hover .profile-avatar-overlay {
       opacity: 1;
@@ -191,7 +192,7 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.04);
       border: 1px solid var(--border-subtle);
       color: #94a3b8;
       font-size: 0.82rem;
@@ -201,8 +202,8 @@
       word-break: break-all;
     }
     .profile-card-balance-box {
-      background: rgba(0, 0, 0, 0.45);
-      border: 1px solid var(--border-gold);
+      background: rgba(245, 158, 11, 0.05);
+      border: 1px solid rgba(245, 158, 11, 0.25);
       border-radius: var(--radius-md);
       padding: 20px;
       margin: 20px 0;
@@ -212,9 +213,9 @@
     }
     .profile-balance-val {
       font-size: clamp(1.4rem, 4vw, 1.85rem);
-      font-weight: 900;
+      font-weight: 800;
       color: #fbbf24;
-      text-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+      text-shadow: 0 0 15px rgba(245, 158, 11, 0.25);
       word-break: break-word;
       overflow-wrap: anywhere;
       max-width: 100%;
@@ -222,27 +223,30 @@
       margin: 6px 0;
     }
     .lootbox-profile-card {
-      background: radial-gradient(circle at 50% 20%, #1e1b4b 0%, #0c0e17 80%);
-      border: 1px solid var(--border-gold);
+      background: radial-gradient(circle at 50% 20%, rgba(99, 102, 241, 0.12) 0%, rgba(10, 12, 17, 0.96) 80%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: var(--radius-xl);
       padding: 36px 30px;
       text-align: center;
       margin-bottom: 36px;
       position: relative;
       overflow: hidden;
-      box-shadow: 0 0 40px rgba(251, 191, 36, 0.12);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7), 0 0 30px rgba(99, 102, 241, 0.12);
     }
     .profile-section-card {
       background: var(--bg-card);
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-xl);
       padding: 28px;
       margin-bottom: 32px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
     }
     .profile-section-title {
-      font-size: 1.3rem;
-      font-weight: 800;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #f8fafc;
       margin-bottom: 16px;
       display: flex;
       align-items: center;
