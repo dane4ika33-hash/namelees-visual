@@ -112,26 +112,21 @@
        ================================================================ -->
   <header class="site-header">
     <div class="container header-inner">
-      <div class="header-brand-group">
-        <div class="studio-mac-dots">
-          <span class="mac-dot red"></span>
-          <span class="mac-dot yellow"></span>
-          <span class="mac-dot green"></span>
+      <a href="#" class="brand-logo-link">
+        <img src="assets/logo.jpg?v=20260924_01" alt="Nameless Visual Logo" class="header-logo-img">
+        <div class="brand-title-wrap">
+          <span class="brand-name">Nameless Visual</span>
+          <span class="brand-subtitle">PvP & Visual Mod Store</span>
         </div>
-        <a href="index.html" class="brand-logo-link">
-          <img src="assets/logo.jpg?v=20260924_01" alt="Nameless Visual Logo" class="header-logo-img">
-          <div class="brand-title-wrap">
-            <span class="brand-name">Nameless <span class="brand-name-light">Visual</span></span>
-          </div>
-        </a>
-      </div>
+      </a>
 
       <nav class="main-nav">
-        <a href="index.html" class="nav-link active">Главная</a>
-        <a href="#shop" class="nav-link">Товары</a>
+        <a href="#shop" class="nav-link">Каталог</a>
+        <a href="#shop" onclick="window.app.activeFilter='resourcepack'; window.app.renderProducts();" class="nav-link">Ресурспаки</a>
+        <a href="#shop" onclick="window.app.activeFilter='config'; window.app.renderProducts();" class="nav-link">Конфиги</a>
+        <a href="#download" onclick="window.app.downloadNamelessVisual(event)" class="nav-link nav-download-btn">📥 Скачать</a>
         <a href="profile.html" class="nav-link">Мой профиль</a>
-        <a href="settings.html" class="nav-link">Настройки</a>
-        <a href="https://t.me/NamelessVisual" target="_blank" rel="noopener noreferrer" class="nav-link">Telegram</a>
+        <a href="settings.html" class="nav-link">⚙️ Настройки</a>
       </nav>
 
       <div class="header-actions">
@@ -143,54 +138,65 @@
 
         <!-- User Profile Button / Login Button -->
         <button type="button" class="header-user-btn" id="header-user-profile-btn" onclick="if(window.app){window.app.handleHeaderUserClick();}else{document.getElementById('auth-modal-backdrop').classList.add('active');}" title="Мой профиль / Вход">
-          <img id="header-user-avatar-img" src="" alt="Avatar" style="width: 26px; height: 26px; border-radius: 50%; object-fit: cover; display: none;">
+          <img id="header-user-avatar-img" src="" alt="Avatar" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover; display: none;">
           <span class="user-avatar-circle" id="header-user-avatar-char">👤</span>
           <span id="header-user-nickname">Войти</span>
         </button>
+
+        <!-- Telegram Channel Link -->
+        <a href="https://t.me/NamelessVisual" target="_blank" rel="noopener noreferrer" class="telegram-header-btn" title="Наш Telegram-канал">
+          <span>✈️</span>
+          <span>Telegram</span>
+        </a>
+
+        <!-- Settings Button -->
+        <a href="settings.html" class="header-settings-btn" title="Настройки аккаунта">
+          <span>⚙️</span>
+        </a>
 
         <!-- Cart Button -->
         <button class="cart-header-btn" onclick="window.app.openCart()" title="Корзина">
           <span>🛒</span>
           <span id="header-cart-count" class="cart-badge-count" style="display: none;">0</span>
         </button>
-
-        <!-- Glowing Pill Download Button from Photo 2 -->
-        <a href="#download" onclick="window.app.downloadNamelessVisual(event)" class="header-signup-pill-btn" title="Скачать Nameless Visual">
-          <span>⚡ Скачать</span>
-        </a>
       </div>
     </div>
   </header>
 
   <!-- ================================================================
-       Hero Section - Matches Photo 2 Title & Layout
+       Hero Section
        ================================================================ -->
   <section class="hero-section">
     <div class="container">
-      <h1 class="hero-title">Визуалы и Шейдеры</h1>
+      <div class="hero-badge-wrap">
+        <span>⚡ НОВЫЙ УРОВЕНЬ ВИЗУАЛА • MINECRAFT & PVP</span>
+      </div>
+      <h1 class="hero-title">
+        <span class="text-gradient">NAMELESS VISUAL</span>
+      </h1>
       <p class="hero-desc">
-        Премиальные визуальные модификации, текстуры и конфиги для комфортной игры.
+        Nameless Visual – Лучший бесплатный вспомогательно визуально утилитарный мод. Мы стараемся сделать как можно красивый, полезный, оптимизированный мод для комфорта вашей игры.
       </p>
 
       <div class="hero-actions">
         <a href="#download" onclick="window.app.downloadNamelessVisual(event)" class="action-btn download-hero-btn" id="hero-main-download-btn">
           <span>⚡</span>
-          <span>Скачать Nameless Visual</span>
+          <span>СКАЧАТЬ NAMELESS VISUAL</span>
+        </a>
+        <a href="#shop" class="action-btn primary-btn">
+          🛍️ Перейти к товарам
         </a>
         <a href="https://t.me/NamelessVisual" target="_blank" rel="noopener noreferrer" class="action-btn telegram-btn">
           ✈️ Telegram-канал
-        </a>
-        <a href="#shop" class="action-btn primary-btn">
-          🛍️ Все товары
-        </a>
-        <a href="profile.html#bonus" class="action-btn bonus-btn">
-          🎡 Ежедневный бонус
         </a>
         <a href="profile.html" class="action-btn gold-btn">
           👤 Мой профиль
         </a>
         <a href="settings.html" class="action-btn outline-btn">
           ⚙️ Настройки
+        </a>
+        <a href="profile.html#bonus" class="action-btn bonus-btn">
+          🎡 Ежедневный бонус
         </a>
       </div>
 

@@ -855,31 +855,46 @@ a, button, input, select, textarea, .action-btn, .nav-link, .quick-nav-pill, .mo
   color: #fff;
 }
 
-/* Legacy card-footer fallback */
+/* Card footer styling */
 .card-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-top: auto;
-  padding-top: 10px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
+
 .card-price-block {
   display: flex;
   align-items: baseline;
+  gap: 4px;
 }
+
 .price-amount {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #f8fafc;
+  letter-spacing: -0.01em;
 }
+
 .price-free {
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: 0.95rem;
+  font-weight: 800;
   color: #34d399;
+  text-shadow: 0 0 12px rgba(52, 211, 153, 0.35);
+  letter-spacing: 0.04em;
 }
+
 .card-actions {
   display: flex;
+  align-items: center;
   gap: 8px;
+}
+
+.card-actions .action-btn {
+  padding: 8px 16px;
+  font-size: 0.85rem;
 }
 
 /* ===================================================================
@@ -1057,48 +1072,94 @@ a, button, input, select, textarea, .action-btn, .nav-link, .quick-nav-pill, .mo
   align-items: center;
   justify-content: center;
   user-select: none;
+  border-radius: 50% !important;
+  padding: 8px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, rgba(10, 12, 18, 0.92) 70%, rgba(139, 92, 246, 0.22) 100%);
+  border: 2px solid rgba(139, 92, 246, 0.45);
+  box-shadow: 0 0 35px rgba(139, 92, 246, 0.3), 0 14px 40px rgba(0, 0, 0, 0.9), inset 0 0 20px rgba(0, 0, 0, 0.85);
 }
 
-.roulette-wheel-container::before,
-.roulette-wheel-container::after {
+.roulette-wheel-container::before {
   content: '';
   position: absolute;
-  width: 20px;
-  height: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px dashed rgba(139, 92, 246, 0.45);
   pointer-events: none;
-  z-index: 10;
+  animation: rouletteRingPulse 4s ease-in-out infinite alternate;
 }
-.roulette-wheel-container::before {
-  top: -4px;
-  left: -4px;
-  border-right: none;
-  border-bottom: none;
-}
-.roulette-wheel-container::after {
-  bottom: -4px;
-  right: -4px;
-  border-left: none;
-  border-top: none;
+
+@keyframes rouletteRingPulse {
+  0% { transform: scale(1); opacity: 0.5; }
+  100% { transform: scale(1.02); opacity: 0.9; }
 }
 
 .roulette-wheel-rotator {
   width: 100%;
   height: 100%;
-  border-radius: 50%;
+  border-radius: 50% !important;
   position: relative;
-  box-shadow: 0 0 35px rgba(0, 0, 0, 0.8), 0 0 30px rgba(139, 92, 246, 0.25), inset 0 0 24px rgba(0, 0, 0, 0.9);
-  border: 2px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(0, 0, 0, 0.9);
+  border: 2px solid rgba(255, 255, 255, 0.2);
   cursor: pointer;
   transform-origin: center center;
   transition: transform 6s cubic-bezier(0.12, 0.85, 0.15, 1);
+  overflow: hidden;
 }
 
 .roulette-canvas {
   width: 100%;
   height: 100%;
   display: block;
-  border-radius: 50%;
+  border-radius: 50% !important;
+}
+
+/* Center Disc / Hub inside Roulette Wheel */
+.roulette-center-hub {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 76px;
+  height: 76px;
+  border-radius: 50% !important;
+  background: radial-gradient(circle at 35% 35%, #1e1b4b 0%, #07090e 85%);
+  border: 3px solid rgba(139, 92, 246, 0.75);
+  box-shadow: 0 0 22px rgba(139, 92, 246, 0.55), inset 0 0 14px rgba(0, 0, 0, 0.95);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 20;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  user-select: none;
+}
+
+.roulette-center-hub:hover {
+  transform: translate(-50%, -50%) scale(1.08);
+  border-color: #38bdf8;
+  box-shadow: 0 0 30px rgba(56, 189, 248, 0.7), inset 0 0 12px rgba(0, 0, 0, 0.8);
+}
+
+.roulette-center-hub:active {
+  transform: translate(-50%, -50%) scale(0.96);
+}
+
+.hub-logo-letter {
+  font-size: 1.25rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.85));
+}
+
+.hub-spin-label {
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #f8fafc;
+  text-transform: uppercase;
+  margin-top: 3px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
 }
 
 .roulette-pointer-needle {
