@@ -20,10 +20,13 @@ import urllib.request
 import urllib.parse
 from urllib.parse import urlparse, parse_qs
 from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
+import base64
+import shutil
 
 PORT = int(os.environ.get("PORT", 8080))
 DB_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "database.db")
 REGISTRY_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "users_registry.json")
+DOWNLOADS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "downloads")
 ADMIN_PASSWORD_DEFAULT = "admin123"
 SALT_OLD = "NAMELEES_VISUAL_SECURE_SALT_2026"
 SALT = "NAMELESS_VISUAL_SECURE_SALT_2026"
@@ -264,6 +267,7 @@ def init_db():
     );
     """)
     cursor.execute("INSERT OR IGNORE INTO settings (key, value) VALUES ('admin_password', 'admin123')")
+    cursor.execute("INSERT OR IGNORE INTO settings (key, value) VALUES ('download_url', '')")
 
     # Promo codes table (for balance top-up percentage discounts)
     cursor.execute("""
@@ -837,6 +841,66 @@ class NamelessServerHandler(SimpleHTTPRequestHandler):
                 "payments": [dict(r) for r in rows]
             })
 
+        # --- Direct Download of Nameless Visual Mod ---
+        elif path in ("/download", "/api/download"):
+            conn = get_db_connection()
+            cursor = conn.cursor()
+            cursor.execute("SELECT value FROM settings WHERE key = 'download_url'")
+            row = cursor.fetchone()
+            custom_url = row["value"].strip() if row and row["value"] else ""
+            conn.close()
+
+            if custom_url and custom_url.startswith("http"):
+                self.send_response(302)
+                self.send_header("Location", custom_url)
+                self.end_headers()
+                return
+
+            if os.path.exists(DOWNLOADS_DIR):
+                files = [f for f in os.listdir(DOWNLOADS_DIR) if os.path.isfile(os.path.join(DOWNLOADS_DIR, f)) and not f.startswith('.')]
+                # Sort: prefer NamelessVisual.zip, then newest files
+                files.sort(key=lambda x: (0 if "nameless" in x.lower() else 1, -os.path.getmtime(os.path.join(DOWNLOADS_DIR, x))))
+                if files:
+                    file_to_serve = os.path.join(DOWNLOADS_DIR, files[0])
+                    filename = files[0]
+                    file_size = os.path.getsize(file_to_serve)
+                    self.send_response(200)
+                    self.send_header("Content-Type", "application/octet-stream")
+                    self.send_header("Content-Disposition", f'attachment; filename="{filename}"')
+                    self.send_header("Content-Length", str(file_size))
+                    self.end_headers()
+                    with open(file_to_serve, "rb") as f:
+                        shutil.copyfileobj(f, self.wfile)
+                    return
+
+            # Fallback redirect to Telegram channel if file is not uploaded yet
+            self.send_response(302)
+            self.send_header("Location", "https://t.me/NamelessVisual")
+            self.end_headers()
+            return
+
+        elif path == "/api/download-info":
+            conn = get_db_connection()
+            cursor = conn.cursor()
+            cursor.execute("SELECT value FROM settings WHERE key = 'download_url'")
+            row = cursor.fetchone()
+            custom_url = row["value"].strip() if row and row["value"] else ""
+            conn.close()
+
+            files = [f for f in os.listdir(DOWNLOADS_DIR) if os.path.isfile(os.path.join(DOWNLOADS_DIR, f)) and not f.startswith('.')] if os.path.exists(DOWNLOADS_DIR) else []
+            has_local = len(files) > 0
+            filename = files[0] if has_local else "NamelessVisual.zip"
+            size = os.path.getsize(os.path.join(DOWNLOADS_DIR, filename)) if has_local else 0
+
+            return self.send_json(200, {
+                "success": True,
+                "has_file": has_local or bool(custom_url),
+                "file_name": filename,
+                "file_size": size,
+                "custom_url": custom_url,
+                "download_url": custom_url if (custom_url and custom_url.startswith("http")) else "/download"
+            })
+
         # Static files fallback (index.html, profile.html, etc.)
         return super().do_GET()
 
@@ -880,6 +944,54 @@ class NamelessServerHandler(SimpleHTTPRequestHandler):
                 "success": True,
                 "message": "Пароль администратора успешно изменен и сохранен в базе данных!"
             })
+
+        # --- Admin Set Visual Mod Download URL ---
+        elif path == "/api/admin/set-download-url":
+            if not self.is_admin_or_creator():
+                return self.send_json(403, {"success": False, "message": "Доступ запрещен"})
+            url = body.get("url", "").strip()
+            conn = get_db_connection()
+            cursor = conn.cursor()
+            cursor.execute("INSERT OR REPLACE INTO settings (key, value) VALUES ('download_url', ?)", (url,))
+            conn.commit()
+            conn.close()
+            return self.send_json(200, {
+                "success": True,
+                "message": "Ссылка на скачивание мода успешно сохранена!"
+            })
+
+        # --- Admin Upload Visual Mod Archive (.zip / .jar) ---
+        elif path == "/api/admin/upload-visuals":
+            if not self.is_admin_or_creator():
+                return self.send_json(403, {"success": False, "message": "Доступ запрещен"})
+            file_data_b64 = body.get("file_data", "")
+            filename = body.get("filename", "NamelessVisual.zip").strip()
+            if not file_data_b64:
+                return self.send_json(400, {"success": False, "message": "Файл не передан"})
+            if "," in file_data_b64:
+                file_data_b64 = file_data_b64.split(",", 1)[1]
+            try:
+                raw_bytes = base64.b64decode(file_data_b64)
+                os.makedirs(DOWNLOADS_DIR, exist_ok=True)
+                safe_name = os.path.basename(filename)
+                if not safe_name.lower().endswith(('.zip', '.jar', '.rar', '.7z')):
+                    safe_name = "NamelessVisual.zip"
+                save_path = os.path.join(DOWNLOADS_DIR, safe_name)
+                with open(save_path, "wb") as f:
+                    f.write(raw_bytes)
+                conn = get_db_connection()
+                cursor = conn.cursor()
+                cursor.execute("INSERT OR REPLACE INTO settings (key, value) VALUES ('download_url', '')")
+                conn.commit()
+                conn.close()
+                return self.send_json(200, {
+                    "success": True,
+                    "message": f"Файл «{safe_name}» ({len(raw_bytes)} байт) успешно загружен и готов к скачиванию!",
+                    "filename": safe_name,
+                    "size": len(raw_bytes)
+                })
+            except Exception as e:
+                return self.send_json(500, {"success": False, "message": f"Ошибка сохранения файла: {str(e)}"})
 
         # --- Admin Set User Role / Status ---
         elif path == "/api/admin/set-status":

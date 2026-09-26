@@ -124,6 +124,7 @@
         <a href="#shop" class="nav-link">Каталог</a>
         <a href="#shop" onclick="window.app.activeFilter='resourcepack'; window.app.renderProducts();" class="nav-link">Ресурспаки</a>
         <a href="#shop" onclick="window.app.activeFilter='config'; window.app.renderProducts();" class="nav-link">Конфиги</a>
+        <a href="#download" onclick="window.app.downloadNamelessVisual(event)" class="nav-link nav-download-btn">📥 Скачать</a>
         <a href="profile.html" class="nav-link">Мой профиль</a>
         <a href="settings.html" class="nav-link">⚙️ Настройки</a>
       </nav>
@@ -179,6 +180,10 @@
       </p>
 
       <div class="hero-actions">
+        <a href="#download" onclick="window.app.downloadNamelessVisual(event)" class="action-btn download-hero-btn" id="hero-main-download-btn">
+          <span>⚡</span>
+          <span>СКАЧАТЬ NAMELESS VISUAL</span>
+        </a>
         <a href="#shop" class="action-btn primary-btn">
           🛍️ Перейти к товарам
         </a>
@@ -389,6 +394,9 @@
           </button>
           <button class="action-btn primary-btn btn-xs" onclick="window.app.toggleAdminRouletteView()" id="admin-toggle-roulette-btn" title="Настройка выпадающих призов и шансов рулетки">
             🎡 Призы рулетки
+          </button>
+          <button class="action-btn primary-btn btn-xs" onclick="window.app.toggleAdminDownloadView()" id="admin-toggle-download-btn" title="Настройка файла и ссылки для кнопки «Скачать»" style="background: linear-gradient(135deg, #10b981, #06b6d4);">
+            📥 Файл мода
           </button>
           <button class="action-btn outline-btn btn-xs" onclick="window.app.forceSyncProductsToServer()" title="Сохранить текущий каталог товаров на сервер для всех телефонов и ПК">
             ☁️ Синхронизировать
@@ -675,6 +683,47 @@
           <!-- Loaded by JS -->
         </div>
       </div>
+
+      <!-- Admin Visual Mod File & Download Settings View (Toggled) -->
+      <div id="admin-download-view" style="display: none; padding-top: 14px;">
+        <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+          <div>
+            <h3 class="text-lg font-bold">📥 Настройка файла и ссылки мода Nameless Visual</h3>
+            <p class="text-xs text-secondary">Файл, который скачивают пользователи по главной кнопке «Скачать» на сайте</p>
+          </div>
+          <button class="action-btn outline-btn btn-xs" onclick="window.app.loadAdminDownloadInfo()">🔄 Обновить статус</button>
+        </div>
+
+        <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: var(--radius-sm); padding: 16px; margin-bottom: 14px;">
+          <!-- Option 1: Direct File Attachment -->
+          <div class="admin-form-group mb-4">
+            <label class="text-sm font-bold" style="color: #34d399;">Способ 1: Загрузить файл с компьютера (.zip, .jar)</label>
+            <div class="file-dropzone-box" onclick="document.getElementById('admin-visual-file-input').click()" style="border-color: rgba(16, 185, 129, 0.4); background: rgba(16, 185, 129, 0.05); cursor: pointer; text-align: center; padding: 24px; border-radius: var(--radius-sm); border: 2px dashed rgba(16, 185, 129, 0.4);">
+              <div style="font-size: 32px; margin-bottom: 6px;">📦</div>
+              <strong style="color: #34d399; font-size: 1rem;">Нажмите, чтобы прикрепить архив с визуалами (.zip или .jar)</strong>
+              <div class="text-xs text-secondary mt-1" id="admin-upload-visual-status">Файл сразу появится на сайте и начнет скачиваться у всех игроков</div>
+              <input type="file" id="admin-visual-file-input" accept=".zip,.jar,.rar,.7z" style="display: none;" onchange="window.app.handleVisualFileUpload(this)">
+            </div>
+          </div>
+
+          <!-- Option 2: External Direct Link -->
+          <div class="admin-form-group">
+            <label class="text-sm font-bold" style="color: #38bdf8;">Способ 2: Или укажите ссылку на скачивание (Яндекс.Диск, Google Drive, Telegram)</label>
+            <div style="display: flex; gap: 8px; margin-top: 6px;">
+              <input type="url" id="admin-visual-url-input" class="form-input" placeholder="https://disk.yandex.ru/d/... или https://t.me/NamelessVisual/..." style="font-size: 0.9rem;">
+              <button type="button" class="action-btn primary-btn btn-sm" onclick="window.app.saveVisualDownloadUrl()">Сохранить ссылку</button>
+            </div>
+          </div>
+
+          <!-- Current Status Info Box -->
+          <div style="margin-top: 14px; padding: 12px 14px; background: rgba(0,0,0,0.3); border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.06);">
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-secondary">Текущий файл / статус:</span>
+              <span class="text-xs font-bold" id="admin-visual-current-status" style="color: #34d399;">Проверка...</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -694,6 +743,59 @@
       <button class="action-btn primary-btn w-full" onclick="window.app.closeAllModals()">
         ОТЛИЧНО, ПРОДОЛЖИТЬ
       </button>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       MODAL: Download Nameless Visual
+       ================================================================ -->
+  <div class="modal-backdrop" id="download-modal-backdrop">
+    <div class="modal-window" style="max-width: 520px; padding: 32px 26px; text-align: center;">
+      <button class="modal-close-btn" onclick="document.getElementById('download-modal-backdrop').classList.remove('active')">✕</button>
+
+      <div style="font-size: 48px; margin-bottom: 10px; filter: drop-shadow(0 0 16px rgba(16, 185, 129, 0.6));">⚡</div>
+      <h2 class="text-2xl font-black mb-1">СКАЧАТЬ NAMELESS VISUAL</h2>
+      <p class="text-xs text-secondary mb-4">Официальный релиз визуального мода для Minecraft</p>
+
+      <div class="download-status-card mb-4" id="download-status-box">
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-3">
+            <span style="font-size: 26px;">📦</span>
+            <div class="text-left">
+              <strong id="download-file-title" style="color: #fff; font-size: 0.98rem;">NamelessVisual.zip</strong>
+              <div class="text-xs text-secondary" id="download-file-meta">Версия 1.0 • Готов к установке</div>
+            </div>
+          </div>
+          <span class="product-badge badge-free" style="position: static;">FREE</span>
+        </div>
+        <div id="download-action-container">
+          <a href="/download" id="modal-direct-download-btn" class="action-btn download-hero-btn w-full" download>
+            📥 НАЖМИТЕ ДЛЯ СКАЧИВАНИЯ
+          </a>
+        </div>
+      </div>
+
+      <!-- Quick installation guide -->
+      <div class="install-guide-card text-left mb-4">
+        <h4 class="font-bold text-sm mb-2" style="color: #38bdf8; display: flex; align-items: center; gap: 6px;">
+          <span>📖</span> Быстрая установка за 1 минуту:
+        </h4>
+        <ol class="install-guide-steps text-xs text-secondary" style="padding-left: 18px; margin: 0; line-height: 1.8;">
+          <li>Нажмите кнопку скачивания выше и сохраните архив.</li>
+          <li>Нажмите сочетание клавиш <kbd style="background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; color: #fff;">Win + R</kbd> на клавиатуре, введите <code style="color: #fbbf24;">%appdata%\.minecraft</code> и нажмите <b>Enter</b>.</li>
+          <li>Переместите скачанный файл в папку <code style="color: #34d399;">mods</code> (для мода) или <code style="color: #34d399;">resourcepacks</code> (для ресурспака).</li>
+          <li>Запустите Minecraft и активируйте Nameless Visual!</li>
+        </ol>
+      </div>
+
+      <div class="flex gap-2">
+        <a href="https://t.me/NamelessVisual" target="_blank" rel="noopener noreferrer" class="action-btn telegram-btn flex-grow btn-sm">
+          ✈️ Telegram с обновлениями
+        </a>
+        <button type="button" class="action-btn outline-btn btn-sm" onclick="document.getElementById('download-modal-backdrop').classList.remove('active')">
+          Закрыть
+        </button>
+      </div>
     </div>
   </div>
 

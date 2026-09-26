@@ -517,6 +517,66 @@ a, button, input, select, textarea, .action-btn, .nav-link, .quick-nav-pill, .mo
   border-radius: 6px;
 }
 
+/* Download Action Buttons */
+.download-hero-btn {
+  background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+  color: #fff !important;
+  font-weight: 800 !important;
+  font-size: 1rem;
+  letter-spacing: 0.03em;
+  padding: 13px 26px;
+  box-shadow: 0 4px 22px rgba(16, 185, 129, 0.45), 0 0 16px rgba(6, 182, 212, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition-normal);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.download-hero-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 30px rgba(16, 185, 129, 0.75), 0 0 26px rgba(6, 182, 212, 0.6);
+  color: #fff !important;
+}
+
+.nav-download-btn {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.18) 0%, rgba(6, 182, 212, 0.18) 100%) !important;
+  color: #34d399 !important;
+  font-weight: 700 !important;
+  border: 1px solid rgba(52, 211, 153, 0.4) !important;
+  border-radius: 8px !important;
+  padding: 6px 14px !important;
+  transition: all var(--transition-fast) !important;
+}
+
+.nav-download-btn:hover {
+  background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.5) !important;
+  transform: translateY(-1px);
+}
+
+.download-status-card {
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+}
+
+.install-guide-card {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+}
+
 /* Feature Highlights Row */
 .hero-stats-row {
   display: grid;
